@@ -39,4 +39,27 @@ public class Cajero {
         this.saldoCliente = saldoCliente;
     }
     
+    // Método que suma al saldo del cliente una cantidad posterior
+    
+    public void añadirSaldo(double saldo) {
+        this.saldoCliente += saldo;
+    }
+    
+    // Método que reinicia el saldo una vez se ha realizado la compra
+    
+    public void reiniciarSaldo() {
+        this.saldoCliente = 0;
+    }
+    
+    // Método que suma al dinero total el dinero de la última venta
+    
+    public void añadirDinero(double venta) {
+        this.dinero += venta;
+    }
+    
+    // Método que reinicia el valor de dinero si se "extrae" de la cafetera
+    
+    public void vaciarCajero() {
+        this.dinero = 0;
+    }
 }
