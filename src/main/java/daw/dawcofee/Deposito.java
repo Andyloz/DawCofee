@@ -10,41 +10,139 @@ package daw.dawcofee;
  * @author lozan
  */
 public class Deposito {
-    double capMaxima;
-    double cantidad;
-    double capUmbral;
-    String tipo;
-    boolean indicadorUmbr;
+    private String contenido;
+    private double capMaxima;
+    private double cantidad;
+    private double capUmbral;
+    private String tipo;
+    private boolean indicadorUmbr;
 
     // Vamos a distinguir entre depósito de líquido y sólido
     // Unidad líquidos: litros
-    // Unidad sólidos: kilos
+    // Unidad sólidos: gramos
     
-    public Deposito(String tipo) {
-            this.tipo = tipo;
-            capMaxima = 3.0;
-            cantidad = 3.0;
-            capUmbral = 0.33;
-    }
     
-    public Deposito(double capMaxima, double cantidad, double capUmbral, String tipo) {
+    public Deposito(String contenido, double capMaxima, double cantidad, double capUmbral, String tipo) throws Exception {
         // Comprobaciones de valores pasados por parámetros
         if (capMaxima <= 0) {
-            throw new RuntimeException("La capacidad máxima debe ser mayor que 0.");
+            throw new Exception("La capacidad máxima debe ser mayor que 0.");
         } else if (cantidad > capMaxima || cantidad < 0) {
-            throw new RuntimeException("La cantidad debe estar entre la capacidad máxima y 0 (incluidos).");
+            throw new Exception("La cantidad debe estar entre la capacidad máxima y 0 (incluidos).");
         } else if (capUmbral < 0 || capUmbral > 1) {
-            throw new RuntimeException("El umbral debe estar entre 1.00 y 0.00 (incluidos).");
+            throw new Exception("El umbral debe estar entre 1.00 y 0.00 (incluidos).");
         } else if (tipo.equals("líquido") || tipo.equals("sólido")) {
             // Asinación de valores a atributos del objeto
+            this.contenido = contenido;
             this.capMaxima = capMaxima;
             this.cantidad = cantidad;
             this.capUmbral = capUmbral;
             this.tipo = tipo;
         } else {
-            throw new RuntimeException("El tipo debe ser 'líquido' o 'sólido'.");
+            throw new Exception("El tipo debe ser 'líquido' o 'sólido'.");
         }
     }
     
+    
+    // Métodos modificadores de la cantidad
+    public void actualizarUmbral() {
+        indicadorUmbr = capMaxima * capUmbral <= cantidad;
+    }
+    
+    public void rellenar() { // Al máximo
+        cantidad = capMaxima;
+        this.actualizarUmbral();
+    }
+    
+    public void rellenar(double cantidad) {
+        if (this.cantidad + cantidad > capMaxima) {
+            throw new RuntimeException("La cantidad añadida no puede superar la capacidad máxima ("+this.getCapMaximaF()+").");
+        } else {
+            this.cantidad += cantidad;
+            this.actualizarUmbral();
+        }
+    }
+    
+    public void vaciar() { // Al máximo
+        cantidad = 0;
+        this.actualizarUmbral();
+    }
+    
+    public void vaciar(double cantidad) {
+        if (this.cantidad - cantidad < 0) {
+            throw new RuntimeException("No hay suficiente "+this.contenido+".");
+        } else {
+            this.cantidad -= cantidad;
+            this.actualizarUmbral();
+        }
+    }
+    
+    
+    
+    // Get formateado
+    public String getCapMaximaF() {
+        if (tipo.equals("líquido")) {
+            return capMaxima+" L";
+        } else {
+            return capMaxima+" gr";
+        }
+    }
+    
+    public String getCantidadF() {
+        if (tipo.equals("líquido")) {
+            return cantidad+" L";
+        } else {
+            return cantidad+" gr";
+        }
+    }
+    
+    
+    // Getter y Setters
+    public String getContenido() {
+        return contenido;
+    }
+
+    public void setContenido(String contenido) {
+        this.contenido = contenido;
+    }
+
+    public double getCapMaxima() {
+        return capMaxima;
+    }
+
+    public void setCapMaxima(double capMaxima) {
+        this.capMaxima = capMaxima;
+    }
+
+    public double getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(double cantidad) {
+        this.cantidad = cantidad;
+    }
+
+    public double getCapUmbral() {
+        return capUmbral;
+    }
+
+    public void setCapUmbral(double capUmbral) {
+        this.capUmbral = capUmbral;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public boolean isIndicadorUmbr() {
+        return indicadorUmbr;
+    }
+
+    public void setIndicadorUmbr(boolean indicadorUmbr) {
+        this.indicadorUmbr = indicadorUmbr;
+    }
     
 }
