@@ -23,8 +23,7 @@ public class Cafetera {
     
     // Componentes Producto
     private Producto prod1, prod2, prod3, prod4, prod5, prod6, prod7, prod8, prod9, 
-            prod10, prod11, prod12, prod13, prod14, prod15, prod16, prod17, 
-            prod18, prod19, prod20;
+            prod10, prod11;
     
     // Contador de ventas
     private int ventas;
@@ -44,7 +43,17 @@ public class Cafetera {
         this.dep8 = new Deposito("leche fría", 10, 10, 0.33, "líquido");
         
         // Inicialización de productos
-        
+        this.prod1 = new Producto("café solo", 0.80, this.dep1, 32, this.dep3, 8, this.dep2, 0);
+        this.prod2 = new Producto("café solo descafeinado", 0.80, this.dep1, 32, this.dep4, 8, this.dep2, 0);
+        this.prod3 = new Producto("café solo largo", 0.90, this.dep1, 35, this.dep3, 5, this.dep2, 0);
+        this.prod4 = new Producto("café solo largo descafeinado", 0.90, this.dep1, 35, this.dep4, 5, this.dep2, 0);
+        this.prod5 = new Producto("café con leche", 1.10, this.dep1, 18, this.dep3, 4, this.dep2, 18);
+        this.prod6 = new Producto("café con leche descafeinado", 1.10, this.dep1, 18, this.dep4, 4, this.dep2, 18);
+        this.prod7 = new Producto("café cortado", 1.00, this.dep1, 30, this.dep3, 8, this.dep2, 2);
+        this.prod8 = new Producto("café cortado descafeinado", 1.00, this.dep1, 30, this.dep4, 8, this.dep2, 2);
+        this.prod9 = new Producto("chocolate", 0.90, this.dep2, 30, this.dep5, 10, this.dep2, 0);
+        this.prod10 = new Producto("leche fría", 0.90, this.dep8, 40, this.dep3, 0, this.dep2, 0);
+        this.prod11 = new Producto("leche caliente", 0.90, this.dep2, 40, this.dep3, 0, this.dep2, 0);
     }
     
     
@@ -125,5 +134,94 @@ public class Cafetera {
     public void añadirVenta() {
         this.ventas++;
     }
+
+    public Producto getProd1() {
+        return prod1;
+    }
+
+    public void setProd1(Producto prod1) {
+        this.prod1 = prod1;
+    }
+
+    public Producto getProd2() {
+        return prod2;
+    }
+
+    public void setProd2(Producto prod2) {
+        this.prod2 = prod2;
+    }
+
+    public Producto getProd3() {
+        return prod3;
+    }
+
+    public void setProd3(Producto prod3) {
+        this.prod3 = prod3;
+    }
+
+    public Producto getProd4() {
+        return prod4;
+    }
+
+    public void setProd4(Producto prod4) {
+        this.prod4 = prod4;
+    }
+
+    public Producto getProd5() {
+        return prod5;
+    }
+
+    public void setProd5(Producto prod5) {
+        this.prod5 = prod5;
+    }
+
+    public Producto getProd6() {
+        return prod6;
+    }
+
+    public void setProd6(Producto prod6) {
+        this.prod6 = prod6;
+    }
+
+    public Producto getProd7() {
+        return prod7;
+    }
+
+    public void setProd7(Producto prod7) {
+        this.prod7 = prod7;
+    }
+
+    public Producto getProd8() {
+        return prod8;
+    }
+
+    public void setProd8(Producto prod8) {
+        this.prod8 = prod8;
+    }
+
+    public Producto getProd9() {
+        return prod9;
+    }
+
+    public void setProd9(Producto prod9) {
+        this.prod9 = prod9;
+    }
+
+    public Producto getProd10() {
+        return prod10;
+    }
+
+    public void setProd10(Producto prod10) {
+        this.prod10 = prod10;
+    }
+
+    public Producto getProd11() {
+        return prod11;
+    }
+
+    public void setProd11(Producto prod11) {
+        this.prod11 = prod11;
+    }
+    
 
 }
