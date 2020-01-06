@@ -112,11 +112,53 @@ public class Producto {
         this.cantidadLeche = cantidadLeche;
     }
     
-//    // Método que genera automáticamente el código según las características
-//    // del producto.
-//    
-//    private String obtenerCodigo() {
-//        return "null";
-//    }
+    // Método que genera automáticamente el código según las características
+    // del producto.
+    
+    private String obtenerCodigo() {
+        
+        String codigo = "";
+        
+        switch (this.depBase.getContenido()) {
+            case "agua":
+                if (this.cantidadPolvo == 0) {
+                    codigo += "0";
+                } else {
+                    codigo += "1";
+                }
+                break;
+            case "leche":
+                if (this.cantidadPolvo == 0) {
+                    codigo += "0";
+                } else {
+                    codigo += "2";
+                }
+                break;
+            default:
+                codigo += "0";
+        }
+        
+        switch (this.getDepPolvo().getContenido()) {
+            case "café":
+            case "café descafeinado":
+                if (this.cantidadPolvo == 0) {
+                    codigo += "0";
+                } else {
+                    codigo += "1";
+                }
+                break;
+            case "cacao":
+                if (this.cantidadPolvo == 0) {
+                    codigo += "0";
+                } else {
+                    codigo += "2";
+                }
+                break;
+            default:
+                codigo += "0";
+        }
+        
+        return null;
+    }
 
 }
