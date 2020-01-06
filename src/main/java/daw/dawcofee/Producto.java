@@ -20,21 +20,29 @@ public class Producto {
     private String codigo;
     // Agua o leche
     private Deposito depBase;
+    private double cantidadBase;
     // Polvo
     private Deposito depPolvo;
+    private double cantidadPolvo;
     // Leche complementaria
     private Deposito depLeche;
-    
+    private double cantidadLeche;
+
     public Producto(String nombre, double precio, Deposito depBase, 
-            Deposito depPolvo, Cafetera cafetera) {
+            double cantidadBase, Deposito depPolvo, double cantidadPolvo, 
+            Deposito depLeche, double cantidadLeche) {
         
         this.nombre = nombre;
         this.precio = precio;
-        this.codigo = null; //Inserte método generador
         this.depBase = depBase;
+        this.cantidadBase = cantidadBase;
         this.depPolvo = depPolvo;
-        this.depLeche = cafetera.getDep2();
+        this.cantidadPolvo = cantidadPolvo;
+        this.depLeche = depLeche;
+        this.cantidadLeche = cantidadLeche;
+        this.codigo = null; // Generador
     }
+    
 
     public String getNombre() {
         return nombre;
@@ -56,11 +64,59 @@ public class Producto {
         return codigo;
     }
     
+    public Deposito getDepBase() {
+        return depBase;
+    }
+
+    public void setDepBase(Deposito depBase) {
+        this.depBase = depBase;
+    }
+
+    public double getCantidadBase() {
+        return cantidadBase;
+    }
+
+    public void setCantidadBase(double cantidadBase) {
+        this.cantidadBase = cantidadBase;
+    }
+
+    public Deposito getDepPolvo() {
+        return depPolvo;
+    }
+
+    public void setDepPolvo(Deposito depPolvo) {
+        this.depPolvo = depPolvo;
+    }
+
+    public double getCantidadPolvo() {
+        return cantidadPolvo;
+    }
+
+    public void setCantidadPolvo(double cantidadPolvo) {
+        this.cantidadPolvo = cantidadPolvo;
+    }
+
+    public Deposito getDepLeche() {
+        return depLeche;
+    }
+
+    public void setDepLeche(Deposito depLeche) {
+        this.depLeche = depLeche;
+    }
+
+    public double getCantidadLeche() {
+        return cantidadLeche;
+    }
+
+    public void setCantidadLeche(double cantidadLeche) {
+        this.cantidadLeche = cantidadLeche;
+    }
+    
 //    // Método que genera automáticamente el código según las características
 //    // del producto.
 //    
 //    private String obtenerCodigo() {
 //        return "null";
 //    }
-    
+
 }
