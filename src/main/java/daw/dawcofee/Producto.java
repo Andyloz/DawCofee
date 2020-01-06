@@ -18,11 +18,20 @@ public class Producto {
     private String nombre;
     private double precio;
     private String codigo;
+    // Agua o leche
+    private Deposito depBase;
+    // Polvo
+    private Deposito depPolvo;
+    // Leche complementaria
+    private Deposito depLeche;
     
-    public Producto(String nombre, double precio) {
+    public Producto(String nombre, double precio, Deposito depBase, Deposito depPolvo, Cafetera cafetera) {
         this.nombre = nombre;
         this.precio = precio;
         this.codigo = null; //Inserte método generador
+        this.depBase = depBase;
+        this.depPolvo = depPolvo;
+        depLeche = cafetera.getDepLeche();
     }
 
     public String getNombre() {

@@ -12,15 +12,86 @@ package daw.dawcofee;
 public class Cafetera {
     
     // Componentes Depósito
-  
-    Deposito dep1, dep2, dep3, dep4, dep5, dep6, dep7, dep8, dep9, dep10;
-    
+    private Deposito depAgua;
+    private Deposito depLeche;
+    private Deposito depCafe;
+    private Deposito depCafeDesc;
+    private Deposito depCacao;
     // Componentes Producto
-    
-    Producto prod1, prod2, prod3, prod4, prod5, prod6, prod7, prod8, prod9, 
+    private Producto prod1, prod2, prod3, prod4, prod5, prod6, prod7, prod8, prod9, 
             prod10, prod11, prod12, prod13, prod14, prod15, prod16, prod17, 
             prod18, prod19, prod20;
     
     // Contador de ventas
-    double ventas;
+    private double ventas;
+    
+    
+    
+    public Cafetera() throws Exception {
+        // Inicialización de depósitos
+        depAgua = new Deposito("agua", 10, 10, 0.33, "líquido");
+        depLeche = new Deposito("leche", 10, 10, 0.33, "líquido");
+        depCafe = new Deposito("café", 10, 10, 0.33, "sólido");
+        depCafeDesc = new Deposito("café descafeinado", 10, 10, 0.33, "sólido");
+        depCacao = new Deposito("cacao", 10, 10, 0.33, "sólido");
+        
+        // Inicialización de productos
+        
+    }
+    
+    
+    
+    // Getters y setters
+    
+    public double getVentas() {
+        return ventas;
+    }
+
+    public void setVentas(double ventas) {
+        this.ventas = ventas;
+    }
+
+    public Deposito getDepAgua() {
+        return depAgua;
+    }
+
+    public void setDepAgua(Deposito depAgua) {
+        this.depAgua = depAgua;
+    }
+
+    public Deposito getDepLeche() {
+        return depLeche;
+    }
+
+    public void setDepLeche(Deposito depLeche) {
+        this.depLeche = depLeche;
+    }
+
+    public Deposito getDepCafe() {
+        return depCafe;
+    }
+
+    public void setDepCafe(Deposito depCafe) {
+        this.depCafe = depCafe;
+    }
+
+    public Deposito getDepCafeDesc() {
+        return depCafeDesc;
+    }
+
+    public void setDepCafeDesc(Deposito depCafeDesc) {
+        this.depCafeDesc = depCafeDesc;
+    }
+
+    public Deposito getDepCacao() {
+        return depCacao;
+    }
+
+    public void setDepCacao(Deposito depCacao) {
+        this.depCacao = depCacao;
+    }
+    
+    
+    
+    
 }
