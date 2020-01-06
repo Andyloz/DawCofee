@@ -25,13 +25,15 @@ public class Producto {
     // Leche complementaria
     private Deposito depLeche;
     
-    public Producto(String nombre, double precio, Deposito depBase, Deposito depPolvo, Cafetera cafetera) {
+    public Producto(String nombre, double precio, Deposito depBase, 
+            Deposito depPolvo, Cafetera cafetera) {
+        
         this.nombre = nombre;
         this.precio = precio;
         this.codigo = null; //Inserte método generador
         this.depBase = depBase;
         this.depPolvo = depPolvo;
-        depLeche = cafetera.getDepLeche();
+        this.depLeche = cafetera.getDep2();
     }
 
     public String getNombre() {
