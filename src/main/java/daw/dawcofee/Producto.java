@@ -18,6 +18,7 @@ public class Producto {
     private String nombre;
     private double precio;
     private String codigo;
+    private boolean aLaVenta;
     // Agua o leche
     private Deposito depBase;
     private double cantidadBase;
@@ -28,22 +29,23 @@ public class Producto {
     private Deposito depLeche;
     private double cantidadLeche;
 
-    public Producto(String nombre, double precio, Deposito depBase, 
-            double cantidadBase, Deposito depPolvo, double cantidadPolvo, 
-            Deposito depLeche, double cantidadLeche) {
+    public Producto(String nombre, double precio, String codigo, 
+            boolean aLaVenta, Deposito depBase, double cantidadBase, 
+            Deposito depPolvo, double cantidadPolvo, Deposito depLeche, 
+            double cantidadLeche) {
         
         this.nombre = nombre;
         this.precio = precio;
+        this.codigo = codigo;
+        this.aLaVenta = aLaVenta;
         this.depBase = depBase;
         this.cantidadBase = cantidadBase;
         this.depPolvo = depPolvo;
         this.cantidadPolvo = cantidadPolvo;
         this.depLeche = depLeche;
         this.cantidadLeche = cantidadLeche;
-        this.codigo = null; // Generador
     }
     
-
     public String getNombre() {
         return nombre;
     }
@@ -110,55 +112,6 @@ public class Producto {
 
     public void setCantidadLeche(double cantidadLeche) {
         this.cantidadLeche = cantidadLeche;
-    }
-    
-    // Método que genera automáticamente el código según las características
-    // del producto.
-    
-    private String obtenerCodigo() {
-        
-        String codigo = "";
-        
-        switch (this.depBase.getContenido()) {
-            case "agua":
-                if (this.cantidadPolvo == 0) {
-                    codigo += "0";
-                } else {
-                    codigo += "1";
-                }
-                break;
-            case "leche":
-                if (this.cantidadPolvo == 0) {
-                    codigo += "0";
-                } else {
-                    codigo += "2";
-                }
-                break;
-            default:
-                codigo += "0";
-        }
-        
-        switch (this.getDepPolvo().getContenido()) {
-            case "café":
-            case "café descafeinado":
-                if (this.cantidadPolvo == 0) {
-                    codigo += "0";
-                } else {
-                    codigo += "1";
-                }
-                break;
-            case "cacao":
-                if (this.cantidadPolvo == 0) {
-                    codigo += "0";
-                } else {
-                    codigo += "2";
-                }
-                break;
-            default:
-                codigo += "0";
-        }
-        
-        return null;
     }
 
 }
