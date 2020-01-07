@@ -12,61 +12,136 @@ package daw.dawcofee;
 public class Cafetera {
     
     // Componentes Depósito
-    private Deposito dep1;
-    private Deposito dep2;
-    private Deposito dep3;
-    private Deposito dep4;
-    private Deposito dep5;
-    private Deposito dep6;
-    private Deposito dep7;
-    private Deposito dep8;
+    private Deposito dep1, dep2, dep3, dep4, dep5, dep6,  dep7;
     
     // Componentes Producto
     private Producto prod1, prod2, prod3, prod4, prod5, prod6, prod7, prod8, prod9, 
             prod10, prod11;
     
-    // Contador de ventas
-    private int ventas;
+    // Array de productos
+    //Producto[] productos = {prod1, prod2, prod3, prod4, prod5, prod6, prod7, prod8, prod9, prod10, prod11}; 
+    private Producto productos[];
+    
+    // Cajero
+    private Cajero cajero = new Cajero();
     
     
+    
+    // Método constructor
     public Cafetera() throws Exception {
-        this.ventas = 0;
-        
+        // Inicialización del cajero
+        this.cajero = new Cajero();
+
         // Inicialización de depósitos
-        this.dep1 = new Deposito("agua", 10, 10, 0.33, "líquido");
-        this.dep2 = new Deposito("leche", 10, 10, 0.33, "líquido");
-        this.dep3 = new Deposito("café", 10, 10, 0.33, "sólido");
-        this.dep4 = new Deposito("café descafeinado", 10, 10, 0.33, "sólido");
-        this.dep5 = new Deposito("cacao", 10, 10, 0.33, "sólido");
-        this.dep6 = new Deposito("azúcar", 10, 10, 0.33, "sólido");
-        this.dep7 = new Deposito("sacarina", 10, 10, 10, "sólido");
-        this.dep8 = new Deposito("leche fría", 10, 10, 0.33, "líquido");
+        this.dep1 = new Deposito("agua", 10000, 10000, 0.33, "líquido");
+        this.dep2 = new Deposito("leche", 10000, 10000, 0.33, "líquido");
+        this.dep3 = new Deposito("café", 10000, 10000, 0.33, "sólido");
+        this.dep4 = new Deposito("café descafeinado", 10000, 10000, 0.33, "sólido");
+        this.dep5 = new Deposito("cacao", 10000, 10000, 0.33, "sólido");
+        this.dep6 = new Deposito("azúcar", 10000, 10000, 0.33, "sólido");
+        this.dep7 = new Deposito("sacarina", 10000, 10000, 0.33, "sólido");
         
         // Inicialización de productos
-        this.prod1 = new Producto("café solo", 0.80, this.dep1, 32, this.dep3, 8, this.dep2, 0);
-        this.prod2 = new Producto("café solo descafeinado", 0.80, this.dep1, 32, this.dep4, 8, this.dep2, 0);
-        this.prod3 = new Producto("café solo largo", 0.90, this.dep1, 35, this.dep3, 5, this.dep2, 0);
-        this.prod4 = new Producto("café solo largo descafeinado", 0.90, this.dep1, 35, this.dep4, 5, this.dep2, 0);
-        this.prod5 = new Producto("café con leche", 1.10, this.dep1, 18, this.dep3, 4, this.dep2, 18);
-        this.prod6 = new Producto("café con leche descafeinado", 1.10, this.dep1, 18, this.dep4, 4, this.dep2, 18);
-        this.prod7 = new Producto("café cortado", 1.00, this.dep1, 30, this.dep3, 8, this.dep2, 2);
-        this.prod8 = new Producto("café cortado descafeinado", 1.00, this.dep1, 30, this.dep4, 8, this.dep2, 2);
-        this.prod9 = new Producto("chocolate", 0.90, this.dep2, 30, this.dep5, 10, this.dep2, 0);
-        this.prod10 = new Producto("leche fría", 0.90, this.dep8, 40, this.dep3, 0, this.dep2, 0);
-        this.prod11 = new Producto("leche caliente", 0.90, this.dep2, 40, this.dep3, 0, this.dep2, 0);
+        this.prod1 = new Producto("Café", 0.80, "1",
+                this.dep1, 50, 
+                this.dep3, 6, 
+                this.dep2, 0);
+        this.prod2 = new Producto("Café descafeinado", 0.80, "2", 
+                this.dep1, 50, 
+                this.dep4, 6, 
+                this.dep2, 0);
+        this.prod3 = new Producto("Café largo", 0.90, "3", 
+                this.dep1, 100, 
+                this.dep3, 12, 
+                this.dep2, 0);
+        this.prod4 = new Producto("Café largo descafeinado", 0.90, "4", 
+                this.dep1, 100, 
+                this.dep4, 12, 
+                this.dep2, 0);
+        this.prod5 = new Producto("Café con leche", 1.10, "5", 
+                this.dep1, 50, 
+                this.dep3, 6, 
+                this.dep2, 50);
+        this.prod6 = new Producto("Café descafeinado con leche", 1.10, "6", 
+                this.dep1, 50, 
+                this.dep4, 6, 
+                this.dep2, 50);
+        this.prod7 = new Producto("Café cortado", 1.00, "7", 
+                this.dep1, 50, 
+                this.dep3, 6, 
+                this.dep2, 25);
+        this.prod8 = new Producto("Café cortado descafeinado", 1.00, "8", 
+                this.dep1, 50, 
+                this.dep4, 6, 
+                this.dep2, 25);
+        this.prod9 = new Producto("Chocolate", 0.90, "9", 
+                this.dep2, 100, 
+                this.dep5, 12, 
+                null, 0);
+        this.prod10 = new Producto("Leche fría", 0.90, "10", 
+                this.dep2, 100, 
+                null, 0, 
+                null, 0);
+        this.prod11 = new Producto("Leche caliente", 0.90, "11", 
+                this.dep2, 100, 
+                null, 0, 
+                null, 0);
+        
+        // Array de productos
+        productos = new Producto[]{prod1, prod2, prod3, prod4, prod5, prod6, prod7, prod8, prod9, prod10, prod11}; 
+    }
+    
+    
+    
+    public void venta(Producto producto) {
+        if(cajero.getSaldoCliente() < producto.getPrecio()) {
+            throw new RuntimeException("El saldo no es suficiente.");
+        } else {
+        // Restar depósitos
+        producto.getDepBase().vaciar(producto.getCantidadBase());
+            // Volver a rellenar en el depósito anterior si no hay suficiente
+            try {
+                producto.getDepPolvo().vaciar(producto.getCantidadPolvo());
+            } catch (RuntimeException e) {
+                producto.getDepBase().rellenar(producto.getCantidadBase());
+                // Relanzar mensaje de error al main
+                throw e;
+            }
+            // Volver a rellenar en los depósitos anteriores si no hay suficiente
+            try {
+                producto.getDepLeche().vaciar(producto.getCantidadLeche());
+            } catch (RuntimeException e) {
+                producto.getDepBase().rellenar(producto.getCantidadBase());
+                producto.getDepPolvo().rellenar(producto.getCantidadPolvo());
+                throw e;
+            }
+        }
+    }
+    
+    
+    
+    public Producto productoMasBarato() {
+        Producto buffer1 = null;
+        Producto buffer2 = null;
+        for (int i = 0; i < productos.length- 1; i++) {
+            if ( i == 0) {
+                buffer1 = productos[i];
+            } else {
+                buffer2 = productos[i];
+                
+                buffer1 = buffer1.getPrecio() < buffer2.getPrecio()
+                        ? buffer1
+                        : buffer2;
+            }
+        }
+        return buffer1;
     }
     
     
     // Getters y setters
     
-    public double getVentas() {
-        return ventas;
-    }
-
-    public void setVentas(int ventas) {
-        this.ventas = ventas;
-    }
-
+    
+    
     public Deposito getDep1() {
         return dep1;
     }
@@ -121,18 +196,6 @@ public class Cafetera {
 
     public void setDep7(Deposito dep7) {
         this.dep7 = dep7;
-    }
-
-    public Deposito getDep8() {
-        return dep8;
-    }
-
-    public void setDep8(Deposito dep8) {
-        this.dep8 = dep8;
-    }
-    
-    public void añadirVenta() {
-        this.ventas++;
     }
 
     public Producto getProd1() {
@@ -222,6 +285,16 @@ public class Cafetera {
     public void setProd11(Producto prod11) {
         this.prod11 = prod11;
     }
-    
 
+    public Cajero getCajero() {
+        return cajero;
+    }
+
+    public void setCajero(Cajero cajero) {
+        this.cajero = cajero;
+    }
+
+    public Producto[] getProductos() {
+        return productos;
+    }
 }

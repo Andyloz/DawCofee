@@ -5,6 +5,8 @@
  */
 package daw.dawcofee;
 
+import java.text.DecimalFormat;
+
 /**
  *
  * @author sander
@@ -17,11 +19,6 @@ package daw.dawcofee;
 public class Cajero {
     private double dinero;
     private double saldoCliente;
-
-    public Cajero() {
-        this.dinero = 0;
-        this.saldoCliente = 0;
-    }
 
     public double getDinero() {
         return dinero;
@@ -61,5 +58,12 @@ public class Cajero {
     
     public void vaciarCajero() {
         this.dinero = 0;
+    }
+    
+    // Formatear dinero
+    
+    public static String formatearDinero(double dinero) {
+        DecimalFormat df = new DecimalFormat("0.00");
+        return df.format(dinero)+" €";
     }
 }

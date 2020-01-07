@@ -18,7 +18,7 @@ public class Deposito {
     private boolean indicadorUmbr;
 
     // Vamos a distinguir entre depósito de líquido y sólido
-    // Unidad líquidos: litros
+    // Unidad líquidos: mililitros
     // Unidad sólidos: gramos
     
     
@@ -28,7 +28,7 @@ public class Deposito {
             throw new Exception("La capacidad máxima debe ser mayor que 0.");
         } else if (cantidad > capMaxima || cantidad < 0) {
             throw new Exception("La cantidad debe estar entre la capacidad máxima y 0 (incluidos).");
-        } else if (capUmbral < 0 || capUmbral > 1) {
+        } else if (capUmbral < 0 && capUmbral > 1) {
             throw new Exception("El umbral debe estar entre 1.00 y 0.00 (incluidos).");
         } else if (tipo.equals("líquido") || tipo.equals("sólido")) {
             // Asinación de valores a atributos del objeto
@@ -81,7 +81,7 @@ public class Deposito {
     // Get formateado
     public String getCapMaximaF() {
         if (tipo.equals("líquido")) {
-            return capMaxima+" L";
+            return capMaxima+" ml";
         } else {
             return capMaxima+" gr";
         }
@@ -89,7 +89,7 @@ public class Deposito {
     
     public String getCantidadF() {
         if (tipo.equals("líquido")) {
-            return cantidad+" L";
+            return cantidad+" ml";
         } else {
             return cantidad+" gr";
         }

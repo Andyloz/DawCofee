@@ -5,6 +5,8 @@
  */
 package daw.dawcofee;
 
+import java.text.DecimalFormat;
+
 /**
  *
  * @author sander
@@ -15,29 +17,29 @@ package daw.dawcofee;
  */
 
 public class Producto {
-    private String nombre;
+    private final String nombre;
     private double precio;
-    private String codigo;
-    private boolean aLaVenta;
+    private final String codigo;
     // Agua o leche
-    private Deposito depBase;
+    private final Deposito depBase;
     private double cantidadBase;
     // Polvo
-    private Deposito depPolvo;
+    private final Deposito depPolvo;
     private double cantidadPolvo;
     // Leche complementaria
-    private Deposito depLeche;
+    private final Deposito depLeche;
     private double cantidadLeche;
 
+    
+    
+    // Método constructor
     public Producto(String nombre, double precio, String codigo, 
-            boolean aLaVenta, Deposito depBase, double cantidadBase, 
-            Deposito depPolvo, double cantidadPolvo, Deposito depLeche, 
-            double cantidadLeche) {
+            Deposito depBase, double cantidadBase, Deposito depPolvo,
+            double cantidadPolvo, Deposito depLeche, double cantidadLeche) {
         
         this.nombre = nombre;
         this.precio = precio;
         this.codigo = codigo;
-        this.aLaVenta = aLaVenta;
         this.depBase = depBase;
         this.cantidadBase = cantidadBase;
         this.depPolvo = depPolvo;
@@ -46,12 +48,13 @@ public class Producto {
         this.cantidadLeche = cantidadLeche;
     }
     
+    
+    
+    
+    // Getters y setters
+    
     public String getNombre() {
         return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
     }
 
     public double getPrecio() {
@@ -70,10 +73,6 @@ public class Producto {
         return depBase;
     }
 
-    public void setDepBase(Deposito depBase) {
-        this.depBase = depBase;
-    }
-
     public double getCantidadBase() {
         return cantidadBase;
     }
@@ -84,10 +83,6 @@ public class Producto {
 
     public Deposito getDepPolvo() {
         return depPolvo;
-    }
-
-    public void setDepPolvo(Deposito depPolvo) {
-        this.depPolvo = depPolvo;
     }
 
     public double getCantidadPolvo() {
@@ -102,10 +97,6 @@ public class Producto {
         return depLeche;
     }
 
-    public void setDepLeche(Deposito depLeche) {
-        this.depLeche = depLeche;
-    }
-
     public double getCantidadLeche() {
         return cantidadLeche;
     }
@@ -114,4 +105,10 @@ public class Producto {
         this.cantidadLeche = cantidadLeche;
     }
 
+    @Override
+    public String toString() {
+        return "Producto{" + "nombre=" + nombre + ", precio=" + precio + ", codigo=" + codigo + ", depBase=" + depBase + ", cantidadBase=" + cantidadBase + ", depPolvo=" + depPolvo + ", cantidadPolvo=" + cantidadPolvo + ", depLeche=" + depLeche + ", cantidadLeche=" + cantidadLeche + '}';
+    }
+
+    
 }
