@@ -99,6 +99,7 @@ public class Interfaz {
                 System.out.println("(Si quiere su dinero de vuelta, introduzca 0)");
                 try {
                     codigo = sc.nextInt();
+                    sc.nextLine();
                     // Seleccionamos el producto en el array
                     productoVenta = cafetera.getProductos()[codigo - 1];
                     // Venta
@@ -127,16 +128,18 @@ public class Interfaz {
                         }
                     } while (reintentarVenta);
                 } catch (InputMismatchException | ArrayIndexOutOfBoundsException e) {
-                    System.out.println("Introducza un código válido!!");
-                    System.out.println("-----------------------------");
-                    System.out.println();
-                    sc.nextLine();
+                    if (codigo != 0) {
+                        System.out.println("Introducza un código válido!!");
+                        System.out.println("-----------------------------");
+                        System.out.println();
+                        sc.nextLine();
+                    }
                 }
             } while (codigo < 0 || codigo > cafetera.getProductos().length);
-            
+            System.out.println(productoVenta.toString());
             
             // Parte final del ciclo
-            codigo = -1;
+            codigo = 0;
             System.out.println();
             System.out.println();
             System.out.println();

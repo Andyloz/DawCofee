@@ -104,6 +104,7 @@ public class Cafetera {
                 producto.getDepPolvo().vaciar(producto.getCantidadPolvo());
             } catch (RuntimeException e) {
                 producto.getDepBase().rellenar(producto.getCantidadBase());
+        System.out.println(e.getMessage());
                 // Relanzar mensaje de error al main
                 throw e;
             }
