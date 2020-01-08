@@ -77,72 +77,101 @@ public class Interfaz {
             System.out.println("\\____/\\__,_/_/  \\___/\\__/\\___/_/   \\__,_/  ");
             System.out.println("----------------------------------------");
             
-            // Repetir mientras no se introduzca como mínimo el precio por el
-            // producto más barato
-            introducirDinero(cafetera, cafetera.productoMasBarato().getPrecio(), false);
-
-
-            // Catálogo de productos
-            System.out.println("Productos");
-            System.out.println("-----------------------------");
-            for (Producto producto: cafetera.getProductos()) {
-                System.out.println(producto.getCodigo()
-                        +". "+producto.getNombre()
-                        +" ("+Cajero.formatearDinero(producto.getPrecio())+")");                
-            }
-            System.out.println("");
+            System.out.println("1. Venta de productos");
+            System.out.println("2. Administración de la cafetera");
+            System.out.println("----------------------------------------");
+            System.out.print("Seleccione opción: ");
+            int opcion = 0;
             
+            // Repetir mientras no se de una opción mostrada en el inicio
+            // Si la opción es 1, comenzará una venta, si es 2 irá
+            // al menú de administración
             
-            // Repetir mientras no se introduzca un código válido
             do {
-                System.out.println("Introduzca un número de código:");
-                System.out.println("(Si quiere su dinero de vuelta, introduzca 0)");
                 try {
-                    codigo = sc.nextInt();
-                    sc.nextLine();
-                    // Seleccionamos el producto en el array
-                    productoVenta = cafetera.getProductos()[codigo - 1];
-                    // Venta
-                    do {
-                        try {
-                            cafetera.venta(productoVenta);
-                            reintentarVenta = false;
-                        } catch (RuntimeException e) {
-                            System.out.println(e.getMessage());
-                            // Si el usuario no tiene saldo suficiente, darle la 
-                            // opción de introducir más dinero
-                            if (e.getMessage().equals("El saldo no es suficiente.")) {
-                                System.out.println("Le faltan "+(productoVenta.getPrecio() - cafetera.getCajero().getSaldoCliente())
-                                        +" € más.");
-                                if (siNo("¿Le gustaría introducir más dinero? (s/n)")) {
-                                    if (!introducirDinero(cafetera, productoVenta.getPrecio() - cafetera.getCajero().getSaldoCliente(), true)) {
-                                        System.out.println("Reintentando venta...");
-                                        reintentarVenta = true;
+                    opcion = sc.nextInt();
+                    System.out.println("");
+
+                    if (opcion != 1 && opcion != 2) {
+                        opcion = 0;
+                        System.out.print("Introduzca una opción válida: ");
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.print("Introduzca una opción válida: ");
+                }
+            } while (opcion == 0);
+            sc.nextLine();
+            
+            if (opcion == 1) {
+                // Repetir mientras no se introduzca como mínimo el precio por el
+                // producto más barato
+                introducirDinero(cafetera, cafetera.productoMasBarato().getPrecio(), false);
+
+                // Catálogo de productos
+                System.out.println("Productos");
+                System.out.println("-----------------------------");
+                for (Producto producto : cafetera.getProductos()) {
+                    System.out.println(producto.getCodigo()
+                            + ". " + producto.getNombre()
+                            + " (" + Cajero.formatearDinero(producto.getPrecio()) + ")");
+                }
+                System.out.println("");
+
+                // Repetir mientras no se introduzca un código válido
+                do {
+                    System.out.println("Introduzca un número de código:");
+                    System.out.println("(Si quiere su dinero de vuelta, introduzca 0)");
+                    try {
+                        codigo = sc.nextInt();
+                        sc.nextLine();
+                        // Seleccionamos el producto en el array
+                        productoVenta = cafetera.getProductos()[codigo - 1];
+                        // Venta
+                        do {
+                            try {
+                                cafetera.venta(productoVenta);
+                                reintentarVenta = false;
+                            } catch (RuntimeException e) {
+                                System.out.println(e.getMessage());
+                                // Si el usuario no tiene saldo suficiente, darle la 
+                                // opción de introducir más dinero
+                                if (e.getMessage().equals("El saldo no es suficiente.")) {
+                                    System.out.println("Le faltan " + (productoVenta.getPrecio() - cafetera.getCajero().getSaldoCliente())
+                                            + " € más.");
+                                    if (siNo("¿Le gustaría introducir más dinero? (s/n)")) {
+                                        if (!introducirDinero(cafetera, productoVenta.getPrecio() - cafetera.getCajero().getSaldoCliente(), true)) {
+                                            System.out.println("Reintentando venta...");
+                                            reintentarVenta = true;
+                                        } else {
+                                            System.out.println("Venta no realizada");
+                                        }
                                     } else {
-                                        System.out.println("Venta no realizada");
+                                        System.out.println("Venta no realizada.");
                                     }
-                                } else {
-                                    System.out.println("Venta no realizada.");
                                 }
                             }
+                        } while (reintentarVenta);
+                    } catch (InputMismatchException | ArrayIndexOutOfBoundsException e) {
+                        if (codigo != 0) {
+                            System.out.println("Introducza un código válido!!");
+                            System.out.println("-----------------------------");
+                            System.out.println();
+                            sc.nextLine();
                         }
-                    } while (reintentarVenta);
-                } catch (InputMismatchException | ArrayIndexOutOfBoundsException e) {
-                    if (codigo != 0) {
-                        System.out.println("Introducza un código válido!!");
-                        System.out.println("-----------------------------");
-                        System.out.println();
-                        sc.nextLine();
                     }
-                }
-            } while (codigo < 0 || codigo > cafetera.getProductos().length);
-            System.out.println(productoVenta.toString());
-            
-            // Parte final del ciclo
-            codigo = 0;
-            System.out.println();
-            System.out.println();
-            System.out.println();
+                } while (codigo < 0 || codigo > cafetera.getProductos().length);
+                System.out.println(productoVenta.toString());
+
+                // Parte final del ciclo
+                codigo = 0;
+                System.out.println();
+                System.out.println();
+                System.out.println();
+
+            } else if (opcion == 2) {
+                System.out.println("Administracion");
+            }
+
         }
     }
 }
