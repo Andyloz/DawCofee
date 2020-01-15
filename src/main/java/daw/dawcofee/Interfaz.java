@@ -13,6 +13,54 @@ import java.util.Scanner;
  * @author lozan
  */
 public class Interfaz {
+    
+    static void administracion() {
+        
+        // Inicialización de flujo de entrada
+        
+        Scanner sc = new Scanner(System.in);
+        
+        // Entrada de usuario y contraseña
+        
+        System.out.println("--------------------------------");
+        
+        boolean hecho = false;
+        
+        do {
+
+            System.out.print("Usuario: ");
+
+            try {
+                Usuario.verificarUsuario(sc.nextLine());
+                hecho = true;
+            } catch (InputMismatchException e) {
+                System.out.println(e);
+                System.out.println("");
+            } catch (RuntimeException e) {
+                System.out.println(e);
+                System.out.println("");
+            }
+
+        } while (!hecho);
+        
+        do {
+ 
+            System.out.print("Contraseña: ");
+            hecho = false;
+
+            try {
+                Usuario.verificarUsuario(sc.nextLine());
+            } catch (InputMismatchException e) {
+                System.out.println(e);
+                System.out.println("");
+            } catch (RuntimeException e) {
+                System.out.println(e);
+                System.out.println("");
+            }
+
+        } while (!hecho);
+    }
+    
     static boolean introducirDinero(Cafetera cafetera, double minImporte, boolean cancelar) {
         Scanner sc = new Scanner(System.in);
         double var = 0.0;
@@ -169,7 +217,7 @@ public class Interfaz {
                 System.out.println();
 
             } else if (opcion == 2) {
-                System.out.println("Administracion");
+                administracion();
             }
 
         }
