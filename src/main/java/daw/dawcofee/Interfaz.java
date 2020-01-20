@@ -14,7 +14,7 @@ import java.util.Scanner;
  */
 public class Interfaz {
     
-    static void administracion() {
+    static boolean validar() {
         
         // Inicialización de flujo de entrada
         
@@ -24,41 +24,71 @@ public class Interfaz {
         
         System.out.println("--------------------------------");
         
-        boolean hecho = false;
+        if (Usuario.getUsername() == null || 
+            Usuario.getPassword() == null) {
+            
+            System.out.println("Cree una nueva cuenta de administrador:");
+            System.out.println("El nombre de usuario de tener entre "
+                     + "5 y 20 caracteres");
+            System.out.println("La contraseña debe tener entre 5 y 30 "
+                    + "caracteres, de los cuales \nal menos 3 deben ser "
+                    + "números y al menos 1 mayúscula");
+            
+            String usuario;
+            String contrasena;
+            
+            // Entrada de nuevas credenciales
+            
+            boolean hecho = false;
+
+            do {
+
+                System.out.print("Usuario: ");
+                usuario = sc.nextLine();
+                System.out.print("Contraseña: ");
+                contrasena = sc.nextLine();
+                
+                try {
+                    Usuario.crearUsuario(usuario, contrasena);
+                    hecho = true;
+                } catch (InputMismatchException e) {
+                    System.out.println("Ingrese valores válidos");
+                    System.out.println("");
+                } catch (RuntimeException e) {
+                    System.out.println(e.getMessage());
+                    System.out.println("");
+                }
+
+            } while (!hecho);
+            
+            return true;
+
+        } else {
+            boolean hecho = false;
+
+            do {
+
+                System.out.print("Usuario: ");
+
+                if (Usuario.verificarUsuario(sc.nextLine())) {
+                    hecho = true;
+                }
+                
+            } while (!hecho);
+
+            do {
+
+                hecho = false;
+
+                if (Usuario.verificarContrasena(sc.nextLine())) {
+                    hecho = true;
+                }
+
+            } while (!hecho);
+            
+            return true;
+        }
         
-        do {
-
-            System.out.print("Usuario: ");
-
-            try {
-                Usuario.verificarUsuario(sc.nextLine());
-                hecho = true;
-            } catch (InputMismatchException e) {
-                System.out.println(e);
-                System.out.println("");
-            } catch (RuntimeException e) {
-                System.out.println(e);
-                System.out.println("");
-            }
-
-        } while (!hecho);
-        
-        do {
- 
-            System.out.print("Contraseña: ");
-            hecho = false;
-
-            try {
-                Usuario.verificarUsuario(sc.nextLine());
-            } catch (InputMismatchException e) {
-                System.out.println(e);
-                System.out.println("");
-            } catch (RuntimeException e) {
-                System.out.println(e);
-                System.out.println("");
-            }
-
-        } while (!hecho);
     }
     
     static boolean introducirDinero(Cafetera cafetera, double minImporte, boolean cancelar) {
@@ -217,7 +247,7 @@ public class Interfaz {
                 System.out.println();
 
             } else if (opcion == 2) {
-                administracion();
+                
             }
 
         }
