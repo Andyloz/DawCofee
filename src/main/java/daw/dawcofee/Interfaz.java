@@ -91,6 +91,69 @@ public class Interfaz {
         
     }
     
+    static void administracion() {
+        
+        // Inicialización de entrada por teclado
+        
+        Scanner sc = new Scanner(System.in);
+        
+        boolean salir;
+        
+        do {
+        
+            salir = false;
+        
+            // Menú de administración
+            
+            System.out.println("--------------------------------");
+            System.out.println("1. Comprobar depósitos");
+            System.out.println("2. Comprobar estado general");
+            System.out.println("3. Consultar saldo de ventas realizadas");
+            System.out.println("4. Rellenar depósitos");
+            System.out.println("5. Salir");
+            System.out.println("--------------------------------");
+
+            // Elección de opciones
+            
+            int opcion;
+
+            do {
+
+                opcion = 0;
+
+                try {
+                    System.out.print("Ingrese una opción: ");
+                    opcion = sc.nextInt();
+                    sc.nextLine();
+                } catch (InputMismatchException e) {
+                    System.out.println("Ingrese un valor válido");
+                }
+
+                if (opcion >= 1 || opcion <= 5) {
+                    System.out.println("Ingrese una opción válida");
+                }
+
+            } while (opcion >= 1 || opcion <= 5);
+
+            // Opciones
+            
+            switch (opcion) {
+                case 1:
+                    System.out.println("");
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    salir = true;
+            }
+
+        } while (salir = false);
+    }
+    
     static boolean introducirDinero(Cafetera cafetera, double minImporte, boolean cancelar) {
         Scanner sc = new Scanner(System.in);
         double var = 0.0;
@@ -246,8 +309,8 @@ public class Interfaz {
                 System.out.println();
                 System.out.println();
 
-            } else if (opcion == 2) {
-                
+            } else if (opcion == 2 && validar()) {
+                administracion();
             }
 
         }
