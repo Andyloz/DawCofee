@@ -37,22 +37,26 @@ public class Usuario {
             }
         }
         
-        if (username.length() > 4 && username.length() < 21) {
-            Usuario.username = username;
-        } else {
+        if (username.length() <= 4 || username.length() >= 21) {
             throw new RuntimeException("El nombre de usuario de tener entre "
                     + "5 y 20 caracteres");
         }
         
-        if (password.length() > 4 && password.length() < 31 
-            && cantnumeros >= 3 && cantMayus >= 1) {
-            Usuario.password = password;
-        } else {
+        if (((password.length() <= 4 || password.length() >= 31) 
+                || cantnumeros < 3) || cantMayus < 1) {
+            
             throw new RuntimeException("La contraseña debe tener entre 5 y 30 "
                     + "caracteres, de los cuales \nal menos 3 deben ser "
                     + "números y al menos 1 mayúscula");
         }
         
+        if ((username.length() > 4 && username.length() < 21) && 
+            (password.length() > 4 && password.length() < 31 
+                && cantnumeros >= 3 && cantMayus >= 1)) {
+            
+            Usuario.username = username;
+            Usuario.password = password;
+        }
     }
     
     // Método que verifica la credencial Usuario
