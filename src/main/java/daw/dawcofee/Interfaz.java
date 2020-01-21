@@ -91,7 +91,127 @@ public class Interfaz {
         
     }
     
-    static void administracion() {
+    // Método que contiene los procesos y salidas de la opción de relleno de
+    // Depósitos en el menú de administración
+    
+    static void menuRelleno(Cafetera cafetera) {
+        
+        // Inicialización de entrada por teclado
+        
+        Scanner sc = new Scanner(System.in);
+
+        // Elección del depósito a rellenar
+        
+        System.out.println("");
+        System.out.println("--------------------------------");
+        for (int i = 0; i < cafetera.getDepositos().length; i++) {
+            System.out.println("Depósito " + (i + 1) + ": "
+                    + "Depósito de "
+                    + cafetera.getDepositos()[i].getContenido());
+        }
+        System.out.println("--------------------------------");
+
+        boolean salir = false;
+        int numDep = 0;
+
+        System.out.println("");
+        System.out.print("Ingrese el número de depósito a rellenar:");
+
+        do {
+            try {
+                numDep = sc.nextInt();
+
+                if (numDep >= 1 && numDep <= cafetera.getDepositos().length) {
+                    salir = true;
+                } else {
+                    System.out.println("El depósito no existe");
+                }
+
+            } catch (InputMismatchException e) {
+                System.out.println("Ingrese un valor válido");
+                sc.nextLine();
+            }
+        } while (!salir);
+        sc.nextLine();
+
+        // Menú de opciones
+        
+        System.out.println("");
+        System.out.println("--------------------------------");
+        System.out.println("1. Rellenar completo");
+        System.out.println("2. Rellenar con cantidad fija");
+        System.out.println("--------------------------------");
+
+        // Elección de opciones
+        
+        int opcion;
+
+        do {
+
+            opcion = 0;
+
+            try {
+                System.out.print("Ingrese una opción: ");
+                opcion = sc.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("Ingrese un valor válido");
+                sc.nextLine();
+            }
+
+            if (opcion < 1 || opcion > 2) {
+                System.out.println("Ingrese una opción válida");
+            }
+
+        } while (opcion < 1 || opcion > 2);
+        sc.nextLine();
+
+        // Opciones
+        
+        switch (opcion) {
+            case 1:
+                cafetera.getDepositos()[numDep].rellenar();
+            case 2:
+                
+                // Ingreso de la cantidad a ingresar
+                
+                System.out.print("Ingrese una cantidad: ");
+                
+                salir = false;
+                double cantidad = 0;
+                do {
+                    try {
+                        cantidad = sc.nextDouble();
+
+                        if (cantidad >= 0) {
+                            salir = true;
+                        } else {
+                            System.out.println("La cantidad no puede "
+                                    + "ser negativa");
+                        }
+
+                    } catch (InputMismatchException e) {
+                        System.out.println("Ingrese un valor válido");
+                        sc.nextLine();
+                    }
+                } while (!salir);
+                sc.nextLine();
+                
+                // Si la suma supera el máximo, el depósito se queda en el
+                // máximo
+
+                try {
+                    cafetera.getDepositos()[numDep].rellenar(cantidad);
+                } catch (RuntimeException e) {
+                    System.out.println("EL depósito ha llegado a su "
+                            + "máxima capacidad");
+                    cafetera.getDepositos()[numDep].rellenar();
+                }
+        }
+    }
+    
+    // Método que contiene las acciones y salidas del menú de administración
+    
+    static void administracion(Cafetera cafetera) {
         
         // Inicialización de entrada por teclado
         
@@ -105,6 +225,7 @@ public class Interfaz {
         
             // Menú de administración
             
+            System.out.println("");
             System.out.println("--------------------------------");
             System.out.println("1. Comprobar depósitos");
             System.out.println("2. Comprobar estado general");
@@ -124,34 +245,72 @@ public class Interfaz {
                 try {
                     System.out.print("Ingrese una opción: ");
                     opcion = sc.nextInt();
-                    sc.nextLine();
                 } catch (InputMismatchException e) {
                     System.out.println("Ingrese un valor válido");
+                    sc.nextLine();
                 }
 
-                if (opcion >= 1 || opcion <= 5) {
+                if (opcion < 1 || opcion > 5) {
                     System.out.println("Ingrese una opción válida");
                 }
 
-            } while (opcion >= 1 || opcion <= 5);
-
+            } while (opcion < 1 || opcion > 5);
+            sc.nextLine();
+            
             // Opciones
             
             switch (opcion) {
                 case 1:
+                    
+                    // Bucle que imprimirá el estado de cada depósito
+                    
                     System.out.println("");
+                    
+                    for (Deposito deposito : cafetera.getDepositos()) {
+                        System.out.println("Depósito de " 
+                                + deposito.getContenido()
+                                + ": " + deposito.isIndicadorUmbrF());
+                    }
+                    
+                    System.out.println("");
+                    
                     break;
                 case 2:
+                    
+                    // Sentencia que informará del estado general del sistema de
+                    // depósitos y la cuenta de administrador
+                    
+                    System.out.println("");
+                    
+                    // Bucle para informar de todos los depósitos del array
+                    
+                    for (Deposito deposito : cafetera.getDepositos()) {
+                        System.out.println(deposito.toString());
+                        System.out.println("");
+                    }
+                    
+                    System.out.println("El usuario de administrador es :"
+                        + Usuario.getUsername());
+                    System.out.println("La contraseña de administrador es: " 
+                            + Usuario.getPassword());
+                    
+                    System.out.println("");
+                    
                     break;
                 case 3:
+                    
+                    System.out.println("Saldo de ventas realizadas: " 
+                            + Cafetera.getSaldoVentas());
+                    
                     break;
                 case 4:
+                    menuRelleno(cafetera);
                     break;
                 case 5:
                     salir = true;
             }
 
-        } while (salir = false);
+        } while (!salir);
     }
     
     static boolean introducirDinero(Cafetera cafetera, double minImporte, boolean opCancelar) {
@@ -353,7 +512,7 @@ public class Interfaz {
                         /////////////////////////////////
                 
             } else if (opcion == 2 && validar()) {
-                administracion();
+                administracion(cafetera);
             }
         }
     }
