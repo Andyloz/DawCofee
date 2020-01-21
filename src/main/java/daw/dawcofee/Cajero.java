@@ -17,7 +17,7 @@ import java.text.DecimalFormat;
  */
 
 public class Cajero {
-    private double dinero;
+    private double dinero; // Dinero acumulado por las ventas
     private double saldoCliente;
 
     public double getDinero() {

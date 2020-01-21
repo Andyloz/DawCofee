@@ -5,6 +5,8 @@
  */
 package daw.dawcofee;
 
+import java.text.DecimalFormat;
+
 /**
  *
  * @author lozan
@@ -95,6 +97,19 @@ public class Deposito {
         }
     }
     
+    public String getCapUmbralF() {
+        DecimalFormat df = new DecimalFormat("#%");
+        return df.format(capUmbral);
+    }
+    
+    public String isIndicadorUmbrF() {
+        String var = indicadorUmbr
+                ? "El depósito está por debajo del umbral"
+                : "El depósito está por encima del umbral";
+        return var;
+    }
+    
+    
     
     // Getter y Setters
     public String getContenido() {
@@ -145,4 +160,18 @@ public class Deposito {
         this.indicadorUmbr = indicadorUmbr;
     }
     
+    
+    
+    // Método toString
+    
+    // Ejemplo de salida:
+    // Depósito de agua
+    // Capacidad (máxima): 500 de 10000 ml
+    // El depósito está por debajo del umbral (33%)
+    @Override
+    public String toString() {
+        return "Depósito de " + contenido + "\n" +
+               "Capacidad (máxima): " + getCantidad() + " de " + getCapMaximaF() + "\n" +
+               isIndicadorUmbrF() + " (" + getCapUmbralF() + ")";
+    }  
 }

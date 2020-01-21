@@ -12,7 +12,7 @@ package daw.dawcofee;
 public class Cafetera {
     
     // Componentes Depósito
-    private Deposito dep1, dep2, dep3, dep4, dep5, dep6,  dep7;
+    private Deposito dep1, dep2, dep3, dep4, dep5, dep6, dep7;
     
     // Componentes Producto
     private Producto prod1, prod2, prod3, prod4, prod5, prod6, prod7, prod8, prod9, 
@@ -21,6 +21,10 @@ public class Cafetera {
     // Array de productos
     //Producto[] productos = {prod1, prod2, prod3, prod4, prod5, prod6, prod7, prod8, prod9, prod10, prod11}; 
     private Producto productos[];
+    
+    // Array de depósitos
+    // Deposito[] depositos = {dep1, dep2, dep3, dep4, dep5, dep6, dep7};
+    private Deposito depositos[];
     
     // Cajero
     private Cajero cajero = new Cajero();
@@ -88,7 +92,10 @@ public class Cafetera {
                 null, 0);
         
         // Array de productos
-        productos = new Producto[]{prod1, prod2, prod3, prod4, prod5, prod6, prod7, prod8, prod9, prod10, prod11}; 
+        productos = new Producto[]{prod1, prod2, prod3, prod4, prod5, prod6, prod7, prod8, prod9, prod10, prod11};
+        
+        // Array de depósitos
+        depositos = new Deposito[]{dep1, dep2, dep3, dep4, dep5, dep6, dep7};
     }
     
     
@@ -297,5 +304,9 @@ public class Cafetera {
 
     public Producto[] getProductos() {
         return productos;
+    }
+
+    public Deposito[] getDepositos() {
+        return depositos;
     }
 }
