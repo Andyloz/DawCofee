@@ -154,36 +154,61 @@ public class Interfaz {
         } while (salir = false);
     }
     
-    static boolean introducirDinero(Cafetera cafetera, double minImporte, boolean cancelar) {
-        Scanner sc = new Scanner(System.in);
-        double var = 0.0;
+    static boolean introducirDinero(Cafetera cafetera, double minImporte, boolean opCancelar) {
         
-        boolean cancelada = false; // Comprobador de cancelación
+        // El método podrá ser configurado mediante el booleano opCancelar para 
+        // que se pueda elegir no meter dinero. Para ello, el usuario deberá
+        // introducir un 0 cuando se le pida dinero.        
+        
+        
+        Scanner sc = new Scanner(System.in);
+        double ingreso = 0.0; // Variable que almacena el dinero que metemos
+        
+        // Se registra al inicio del método el saldo del cliente
+        double saldoInicial = cafetera.getCajero().getSaldoCliente();
+        
+        boolean cancelada = false; // Comprobante de cancelación
+        
         do {
             System.out.println("Introduzca dinero (decimales con coma):");
-            if (cancelar) {
+            if (opCancelar) {
                 System.out.println("(Si quiere su dinero de vuelta, introduzca 0)");
             }
             try {
-                var = sc.nextDouble();
-                cafetera.getCajero().añadirSaldo(var);
-                if (cancelar && var == 0) {
+                // Introducción por teclado del dinero
+                ingreso = sc.nextDouble();
+                // ...añadido al saldo actual
+                cafetera.getCajero().añadirSaldo(ingreso);
+                
+                if (opCancelar && ingreso == 0) {
                     System.out.println("Dinero no introducido.");
+                    // Este valor será devuelto como comprobante de que se ha
+                    // elegido no meter dinero
                     cancelada = true;
+                    // Con esta sentencia conseguimos que el saldo del cliente
+                    // siempre sea mayor que el importe mínimo, por lo que 
+                    // saldrá del bucle
                     minImporte = -1;
+                    
                 } else if (cafetera.getCajero().getSaldoCliente() < minImporte) {
                     System.out.println("Introduzca al menos "+Cajero.formatearDinero(minImporte)+".");
+                    // Vuelta del saldo a su cantidad inicial
+                    cafetera.getCajero().setSaldoCliente(saldoInicial);
                     sc.nextLine();
                     System.out.println("----------------------------");
                 }
                 System.out.println();
+                
             } catch (InputMismatchException e) {
+            // Si no introduce un double no saldrá del bulce
                 System.out.println("Introducza una cantidad válida.");
                 System.out.println("--------------------------------");
                 System.out.println();
                 sc.nextLine();
             }
+        // Repetir mientras el saldo sea menor que el importe mínimo requerido
         } while(cafetera.getCajero().getSaldoCliente() < minImporte);
+        
         return cancelada;
     }
     
@@ -211,41 +236,58 @@ public class Interfaz {
         boolean reintentarVenta = false;
         
         while (true) {
+            // Reinicio de valores
+            int opcion = 0; // Selección de venta/administración
+            codigo = 0; // Código de producto
+            
+            // Espacio entre repeticiones del ciclo
+            System.out.println();
+            System.out.println();
+            System.out.println();
+            
             System.out.println("   ______      ____     __                 ");
             System.out.println("  / ____/___ _/ __/__  / /____  _________ _");
             System.out.println(" / /   / __ `/ /_/ _ \\/ __/ _ \\/ ___/ __ `/");
             System.out.println("/ /___/ /_/ / __/  __/ /_/  __/ /  / /_/ / ");
             System.out.println("\\____/\\__,_/_/  \\___/\\__/\\___/_/   \\__,_/  ");
             System.out.println("----------------------------------------");
-            
             System.out.println("1. Venta de productos");
             System.out.println("2. Administración de la cafetera");
             System.out.println("----------------------------------------");
             System.out.print("Seleccione opción: ");
-            int opcion = 0;
             
-            // Repetir mientras no se de una opción mostrada en el inicio
-            // Si la opción es 1, comenzará una venta, si es 2 irá
-            // al menú de administración
-            
+            // Repetir mientras opcion no sea 1 o 2 (ir a venta o adminstración)
             do {
                 try {
+                    // Pedir opcion por teclado
                     opcion = sc.nextInt();
                     System.out.println("");
 
                     if (opcion != 1 && opcion != 2) {
+                        // No saldrá del bulce
                         opcion = 0;
                         System.out.print("Introduzca una opción válida: ");
                     }
                 } catch (InputMismatchException e) {
+                // Si no introduce un int no saldrá del bucle
                     System.out.print("Introduzca una opción válida: ");
                 }
             } while (opcion == 0);
             sc.nextLine();
             
+            
+            ///////     Entrada a venta o administración     ///////
+            
+            
             if (opcion == 1) {
-                // Repetir mientras no se introduzca como mínimo el precio por el
-                // producto más barato
+                
+                        ///////////////////////
+                        // Comienzo de venta //
+                        ///////////////////////
+                
+                // Repetir mientras no se introduzca como mínimo el precio por 
+                // el producto más barato                     |
+                //                         ___________________V____________________
                 introducirDinero(cafetera, cafetera.productoMasBarato().getPrecio(), false);
 
                 // Catálogo de productos
@@ -303,16 +345,16 @@ public class Interfaz {
                 } while (codigo < 0 || codigo > cafetera.getProductos().length);
                 System.out.println(productoVenta.toString());
 
-                // Parte final del ciclo
-                codigo = 0;
-                System.out.println();
-                System.out.println();
-                System.out.println();
-
+                System.out.println("¡¡ Programar el devolver dinero !!");
+                cafetera.getCajero().reiniciarSaldo();
+                
+                        /////////////////////////////////
+                        // Fin de venta (vuelta atrás) //
+                        /////////////////////////////////
+                
             } else if (opcion == 2 && validar()) {
                 administracion();
             }
-
         }
     }
 }
