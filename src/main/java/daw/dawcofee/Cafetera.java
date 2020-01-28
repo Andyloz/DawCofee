@@ -10,7 +10,7 @@ package daw.dawcofee;
  * @author lozan
  */
 public class Cafetera {
-    
+
     // Componentes Depósito
     private Deposito dep1, dep2, dep3, dep4, dep5, dep6, dep7;
     
@@ -29,6 +29,8 @@ public class Cafetera {
     // Cajero
     private Cajero cajero = new Cajero();
     
+    // Saldo de ventas
+    private static int saldoVentas = 0;
     
     
     // Método constructor
@@ -101,20 +103,24 @@ public class Cafetera {
     
     
     public void venta(Producto producto) {
+        
         if(cajero.getSaldoCliente() < producto.getPrecio()) {
             throw new RuntimeException("El saldo no es suficiente.");
         } else {
+            
         // Restar depósitos
         producto.getDepBase().vaciar(producto.getCantidadBase());
+        
             // Volver a rellenar en el depósito anterior si no hay suficiente
             try {
                 producto.getDepPolvo().vaciar(producto.getCantidadPolvo());
             } catch (RuntimeException e) {
                 producto.getDepBase().rellenar(producto.getCantidadBase());
-        System.out.println(e.getMessage());
+                System.out.println(e.getMessage());
                 // Relanzar mensaje de error al main
                 throw e;
             }
+            
             // Volver a rellenar en los depósitos anteriores si no hay suficiente
             try {
                 producto.getDepLeche().vaciar(producto.getCantidadLeche());
@@ -123,6 +129,8 @@ public class Cafetera {
                 producto.getDepPolvo().rellenar(producto.getCantidadPolvo());
                 throw e;
             }
+            
+            saldoVentas++;
         }
     }
     
@@ -149,6 +157,9 @@ public class Cafetera {
     // Getters y setters
     
     
+    public static int getSaldoVentas() {
+        return saldoVentas;
+    }
     
     public Deposito getDep1() {
         return dep1;
