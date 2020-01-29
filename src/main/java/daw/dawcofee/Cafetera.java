@@ -29,10 +29,6 @@ public class Cafetera {
     // Cajero
     private Cajero cajero = new Cajero();
     
-    // Saldo de ventas
-    private static int saldoVentas = 0;
-    
-    
     // Método constructor
     public Cafetera() throws Exception {
         // Inicialización del cajero
@@ -130,7 +126,6 @@ public class Cafetera {
                 throw e;
             }
             
-            saldoVentas++;
         }
     }
     
@@ -156,11 +151,7 @@ public class Cafetera {
     
     // Getters y setters
     
-    
-    public static int getSaldoVentas() {
-        return saldoVentas;
-    }
-    
+
     public Deposito getDep1() {
         return dep1;
     }
