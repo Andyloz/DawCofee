@@ -431,9 +431,10 @@ public class Interfaz {
                 } catch (InputMismatchException e) {
                 // Si no introduce un int no saldrá del bucle
                     System.out.print("Introduzca una opción válida: ");
+                } finally {
+                    sc.nextLine();
                 }
             } while (opcion == 0);
-            sc.nextLine();
             
             
             ///////     Entrada a venta o administración     ///////
