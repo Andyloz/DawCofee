@@ -63,7 +63,7 @@ public class Cajero {
     // Formatear dinero
     
     public static String formatearDinero(double dinero) {
-        DecimalFormat df = new DecimalFormat("0.00");
-        return df.format(dinero)+" €";
+        DecimalFormat df = new DecimalFormat("0.00' '¤");
+        return df.format(dinero);
     }
 }
