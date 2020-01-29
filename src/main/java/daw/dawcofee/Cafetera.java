@@ -101,7 +101,7 @@ public class Cafetera {
     
     
     
-    public void venta(Producto producto) {
+    public void venta(Producto producto) throws SaldoInsuficienteExcepcion {
         
         if (cajero.getSaldoCliente() < producto.getPrecio()) {
             throw new SaldoInsuficienteExcepcion();

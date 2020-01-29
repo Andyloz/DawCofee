@@ -5,6 +5,8 @@
  */
 package daw.dawcofee;
 
+import daw.dawcofee.exceptions.DepositoInsuficienteExcepcion;
+import daw.dawcofee.exceptions.SaldoInsuficienteExcepcion;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -313,7 +315,7 @@ public class Interfaz {
         } while (!salir);
     }
     
-    static boolean introducirDinero(Cafetera cafetera, double minImporte, boolean opCancelar) {
+    static void introducirDinero(Cafetera cafetera, double minImporte, boolean opCancelar) throws SaldoInsuficienteExcepcion {
         
         // El método podrá ser configurado mediante el booleano opCancelar para 
         // que se pueda elegir no meter dinero. Para ello, el usuario deberá
@@ -323,11 +325,6 @@ public class Interfaz {
         Scanner sc = new Scanner(System.in);
         double ingreso = 0.0; // Variable que almacena el dinero que metemos
         
-        // Se registra al inicio del método el saldo del cliente
-        double saldoInicial = cafetera.getCajero().getSaldoCliente();
-        
-        boolean cancelada = false; // Comprobante de cancelación
-        
         do {
             System.out.println("Introduzca dinero (decimales con coma):");
             if (opCancelar) {
@@ -336,24 +333,14 @@ public class Interfaz {
             try {
                 // Introducción por teclado del dinero
                 ingreso = sc.nextDouble();
-                // ...añadido al saldo actual
-                cafetera.getCajero().añadirSaldo(ingreso);
                 
                 if (opCancelar && ingreso == 0) {
                     System.out.println("Dinero no introducido.");
-                    // Este valor será devuelto como comprobante de que se ha
-                    // elegido no meter dinero
-                    cancelada = true;
-                    // Con esta sentencia conseguimos que el saldo del cliente
-                    // siempre sea mayor que el importe mínimo, por lo que 
-                    // saldrá del bucle
-                    minImporte = -1;
+                    // Se terminará la ejecución del método si introduce 0
+                    throw new SaldoInsuficienteExcepcion();
                     
-                } else if (cafetera.getCajero().getSaldoCliente() < minImporte) {
+                } else if (ingreso + cafetera.getCajero().getSaldoCliente() < minImporte) {
                     System.out.println("Introduzca al menos "+Cajero.formatearDinero(minImporte)+".");
-                    // Vuelta del saldo a su cantidad inicial
-                    cafetera.getCajero().setSaldoCliente(saldoInicial);
-                    sc.nextLine();
                     System.out.println("----------------------------");
                 }
                 System.out.println();
@@ -363,12 +350,16 @@ public class Interfaz {
                 System.out.println("Introducza una cantidad válida.");
                 System.out.println("--------------------------------");
                 System.out.println();
+            } finally {
                 sc.nextLine();
             }
         // Repetir mientras el saldo sea menor que el importe mínimo requerido
-        } while(cafetera.getCajero().getSaldoCliente() < minImporte);
+        } while(ingreso + cafetera.getCajero().getSaldoCliente() < minImporte);
         
-        return cancelada;
+        // Finalmente, añadir el importe al saldo si supera el importe mínimo
+        if (ingreso >= minImporte) {
+            cafetera.getCajero().añadirSaldo(ingreso);
+        }
     }
     
     static boolean siNo(String msg) {
@@ -459,50 +450,99 @@ public class Interfaz {
                             + " (" + Cajero.formatearDinero(producto.getPrecio()) + ")");
                 }
                 System.out.println("");
-
-                // Repetir mientras no se introduzca un código válido
+                
+                
+                // Pedir código
                 do {
                     System.out.println("Introduzca un número de código:");
                     System.out.println("(Si quiere su dinero de vuelta, introduzca 0)");
                     try {
                         codigo = sc.nextInt();
+                    } catch (InputMismatchException e) {
+                        System.out.println("Introducza un código válido!!");
+                        System.out.println("-----------------------------");
+                        System.out.println();
+                    } finally {
                         sc.nextLine();
-                        // Seleccionamos el producto en el array
-                        productoVenta = cafetera.getProductos()[codigo - 1];
-                        // Venta
-                        do {
-                            try {
-                                cafetera.venta(productoVenta);
-                                reintentarVenta = false;
-                            } catch (RuntimeException e) {
-                                System.out.println(e.getMessage());
-                                // Si el usuario no tiene saldo suficiente, darle la 
-                                // opción de introducir más dinero
-                                if (e.getMessage().equals("El saldo no es suficiente.")) {
-                                    System.out.println("Le faltan " + (productoVenta.getPrecio() - cafetera.getCajero().getSaldoCliente())
-                                            + " € más.");
-                                    if (siNo("¿Le gustaría introducir más dinero? (s/n)")) {
-                                        if (!introducirDinero(cafetera, productoVenta.getPrecio() - cafetera.getCajero().getSaldoCliente(), true)) {
-                                            System.out.println("Reintentando venta...");
-                                            reintentarVenta = true;
-                                        } else {
-                                            System.out.println("Venta no realizada");
-                                        }
-                                    } else {
-                                        System.out.println("Venta no realizada.");
-                                    }
-                                }
-                            }
-                        } while (reintentarVenta);
-                    } catch (InputMismatchException | ArrayIndexOutOfBoundsException e) {
-                        if (codigo != 0) {
-                            System.out.println("Introducza un código válido!!");
-                            System.out.println("-----------------------------");
-                            System.out.println();
-                            sc.nextLine();
-                        }
                     }
                 } while (codigo < 0 || codigo > cafetera.getProductos().length);
+                
+                
+                if (codigo != 0) {
+                    // Seleccionamos el producto
+                    productoVenta = cafetera.getProductos()[codigo - 1];
+                    // Y procedemos a la venta
+                    do {
+                        reintentarVenta = false;
+                        try {
+                            cafetera.venta(productoVenta);
+                        } catch (SaldoInsuficienteExcepcion e) {
+                            System.out.println("El saldo no es suficiente \n" +
+                                    "Le falta " +
+                                    (productoVenta.getPrecio() - cafetera.getCajero().getSaldoCliente())+ " € más. \n");
+                            if (siNo("¿Le gustaría introducir más dinero?")) {
+                                try {
+                                    introducirDinero(cafetera, productoVenta.getPrecio() - cafetera.getCajero().getSaldoCliente(), true);
+                                } catch (SaldoInsuficienteExcepcion f) {
+                                    throw f;
+                                }
+                            }
+                        } catch (DepositoInsuficienteExcepcion e) {
+                            System.out.println("DEBUG excepcion e");
+                        }
+                    } while (true);
+                    
+                // Si de código se ha introducido 0, terminar la venta
+                } else {
+                    System.out.println("Venta no realizada");
+                    cafetera.getCajero().reiniciarSaldo();
+                }
+                
+                
+
+//                // Repetir mientras no se introduzca un código válido
+//                do {
+//                    System.out.println("Introduzca un número de código:");
+//                    System.out.println("(Si quiere su dinero de vuelta, introduzca 0)");
+//                    try {
+//                        codigo = sc.nextInt();
+//                        sc.nextLine();
+//                        // Seleccionamos el producto en el array
+//                        productoVenta = cafetera.getProductos()[codigo - 1];
+//                        // Venta
+//                        do {
+//                            try {
+//                                cafetera.venta(productoVenta);
+//                                reintentarVenta = false;
+//                            } catch (RuntimeException e) {
+//                                System.out.println(e.getMessage());
+//                                // Si el usuario no tiene saldo suficiente, darle la 
+//                                // opción de introducir más dinero
+//                                if (e.getMessage().equals("El saldo no es suficiente.")) {
+//                                    System.out.println("Le faltan " + (productoVenta.getPrecio() - cafetera.getCajero().getSaldoCliente())
+//                                            + " € más.");
+//                                    if (siNo("¿Le gustaría introducir más dinero? (s/n)")) {
+//                                        if (!introducirDinero(cafetera, productoVenta.getPrecio() - cafetera.getCajero().getSaldoCliente(), true)) {
+//                                            System.out.println("Reintentando venta...");
+//                                            reintentarVenta = true;
+//                                        } else {
+//                                            System.out.println("Venta no realizada");
+//                                        }
+//                                    } else {
+//                                        System.out.println("Venta no realizada.");
+//                                    }
+//                                }
+//                            }
+//                        } while (reintentarVenta);
+//                    } catch (InputMismatchException | ArrayIndexOutOfBoundsException e) {
+//                        if (codigo != 0) {
+//                            System.out.println("Introducza un código válido!!");
+//                            System.out.println("-----------------------------");
+//                            System.out.println();
+//                            sc.nextLine();
+//                        }
+//                    }
+//                } while (codigo < 0 || codigo > cafetera.getProductos().length);
                 System.out.println(productoVenta.toString());
 
                 System.out.println("¡¡ Programar el devolver dinero !!");
