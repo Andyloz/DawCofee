@@ -300,8 +300,7 @@ public class Interfaz {
                 case 3:
                     
                     System.out.println("Saldo de ventas realizadas: " 
-                            + String.format("0.00",
-                                    cafetera.getCajero().getDinero()) + "€");
+                            + Cajero.formatearDinero(cafetera.getCajero().getDinero()));
                     
                     break;
                 case 4:

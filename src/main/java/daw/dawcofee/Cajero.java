@@ -17,15 +17,15 @@ import java.text.DecimalFormat;
  */
 
 public class Cajero {
-    private double dinero; // Dinero acumulado por las ventas
+    private double saldoCajero; // Dinero acumulado por las ventas
     private double saldoCliente;
 
     public double getDinero() {
-        return dinero;
+        return saldoCajero;
     }
 
     public void setDinero(double dinero) {
-        this.dinero = dinero;
+        this.saldoCajero = dinero;
     }
 
     public double getSaldoCliente() {
@@ -51,13 +51,13 @@ public class Cajero {
     // Método que suma al dinero total el dinero de la última venta
     
     public void añadirDinero(double venta) {
-        this.dinero += venta;
+        this.saldoCajero += venta;
     }
     
     // Método que reinicia el valor de dinero si se "extrae" de la cafetera
     
     public void vaciarCajero() {
-        this.dinero = 0;
+        this.saldoCajero = 0;
     }
     
     // Formatear dinero
