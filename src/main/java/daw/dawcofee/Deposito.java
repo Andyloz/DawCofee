@@ -5,6 +5,7 @@
  */
 package daw.dawcofee;
 
+import daw.dawcofee.exceptions.DepositoInsuficienteExcepcion;
 import java.text.DecimalFormat;
 
 /**
@@ -71,7 +72,7 @@ public class Deposito {
     
     public void vaciar(double cantidad) {
         if (this.cantidad - cantidad < 0) {
-            throw new RuntimeException("No hay suficiente "+this.contenido+".");
+            throw new DepositoInsuficienteExcepcion(this.contenido);
         } else {
             this.cantidad -= cantidad;
             this.actualizarUmbral();

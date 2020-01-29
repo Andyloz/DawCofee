@@ -5,6 +5,9 @@
  */
 package daw.dawcofee;
 
+import daw.dawcofee.exceptions.DepositoInsuficienteExcepcion;
+import daw.dawcofee.exceptions.SaldoInsuficienteExcepcion;
+
 /**
  *
  * @author lozan
@@ -100,32 +103,26 @@ public class Cafetera {
     
     public void venta(Producto producto) {
         
-        if(cajero.getSaldoCliente() < producto.getPrecio()) {
-            throw new RuntimeException("El saldo no es suficiente.");
+        if (cajero.getSaldoCliente() < producto.getPrecio()) {
+            throw new SaldoInsuficienteExcepcion();
         } else {
+            // Almacenar la cantidad de cada depósito antes de vaciarlos.
+            // Nos servirá para poder dejarlos como estaban si no hay suficiente
+            // producto de alguno
+            double cantidadBase = producto.getCantidadBase();
+            double cantidadPolvo = producto.getCantidadPolvo();
+            double cantidadLeche = producto.getCantidadLeche();
             
-        // Restar depósitos
-        producto.getDepBase().vaciar(producto.getCantidadBase());
-        
-            // Volver a rellenar en el depósito anterior si no hay suficiente
+            // Vaciado de depósitos
             try {
+                producto.getDepBase().vaciar(producto.getCantidadBase());
                 producto.getDepPolvo().vaciar(producto.getCantidadPolvo());
-            } catch (RuntimeException e) {
-                producto.getDepBase().rellenar(producto.getCantidadBase());
-                System.out.println(e.getMessage());
-                // Relanzar mensaje de error al main
-                throw e;
-            }
-            
-            // Volver a rellenar en los depósitos anteriores si no hay suficiente
-            try {
                 producto.getDepLeche().vaciar(producto.getCantidadLeche());
-            } catch (RuntimeException e) {
-                producto.getDepBase().rellenar(producto.getCantidadBase());
-                producto.getDepPolvo().rellenar(producto.getCantidadPolvo());
-                throw e;
+            } catch (DepositoInsuficienteExcepcion e) {
+                producto.getDepBase().setCantidad(cantidadBase);
+                producto.getDepPolvo().setCantidad(cantidadPolvo);
+                producto.getDepLeche().setCantidad(cantidadLeche);
             }
-            
         }
     }
     
