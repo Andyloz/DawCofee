@@ -326,11 +326,14 @@ public class Interfaz {
         Scanner sc = new Scanner(System.in);
         BigDecimal ingreso = BigDecimal.valueOf(0.00); // Variable que almacena el dinero que metemos
         
-        do {
-            System.out.println("Introduzca dinero (decimales con coma):");
-            if (opCancelar) {
-                System.out.println("(Si quiere su dinero de vuelta, introduzca 0)");
-            }
+        if (opCancelar) {
+            System.out.print("Introduzca dinero (decimales con coma).\n"
+                             + "(Si quiere su dinero de vuelta, introduzca 0): ");
+        } else {
+            System.out.print("Introduzca dinero (decimales con coma): ");
+        }
+        
+        do {  
             try {
                 // Introducción por teclado del dinero
                 ingreso = BigDecimal.valueOf(sc.nextDouble());
@@ -341,21 +344,19 @@ public class Interfaz {
                     throw new SaldoInsuficienteExcepcion();
                     
                 } else if (ingreso.add(cafetera.getCajero().getSaldoCliente()).compareTo(minImporte) < 0) {
-                    System.out.println("Introduzca al menos "+Cajero.formatearDinero(minImporte.doubleValue())+".");
-                    System.out.println("----------------------------");
+                    System.out.print("Introduzca al menos "+Cajero.formatearDinero(minImporte.doubleValue())+": ");
                 }
-                System.out.println();
                 
             } catch (InputMismatchException e) {
             // Si no introduce un double no saldrá del bulce
-                System.out.println("Introducza una cantidad válida.");
-                System.out.println("--------------------------------");
-                System.out.println();
+                System.out.print("Introducza una cantidad válida: ");
             } finally {
                 sc.nextLine();
             }
         // Repetir mientras el saldo sea menor que el importe mínimo requerido
         } while(ingreso.add(cafetera.getCajero().getSaldoCliente()).compareTo(minImporte) < 0);
+        System.out.println();
+        System.out.println();
         
         // Finalmente, añadir el importe al saldo si supera el importe mínimo
         if (ingreso.compareTo(minImporte) >= 0) {
