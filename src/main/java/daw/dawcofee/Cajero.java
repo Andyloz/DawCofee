@@ -45,7 +45,7 @@ public class Cajero {
     // Método que suma al saldo del cliente una cantidad posterior
     
     public void añadirSaldo(BigDecimal saldo) {
-        this.saldoCliente.add(saldo);
+        this.saldoCliente = saldoCliente.add(saldo);
     }
     
     // Método que reinicia el saldo una vez se ha realizado la compra
