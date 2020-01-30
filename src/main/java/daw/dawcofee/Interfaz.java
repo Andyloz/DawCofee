@@ -479,18 +479,20 @@ public class Interfaz {
                         } catch (SaldoInsuficienteExcepcion e) {
                             System.out.println("El saldo no es suficiente \n" +
                                     "Le falta " +
-                                    (productoVenta.getPrecio() - cafetera.getCajero().getSaldoCliente())+ " € más. \n");
-                            if (siNo("¿Le gustaría introducir más dinero?")) {
+                                    Cajero.formatearDinero(productoVenta.getPrecio() - cafetera.getCajero().getSaldoCliente()) + " € más. \n");
+                            if (siNo("¿Le gustaría introducir más dinero? s/n")) {
                                 try {
                                     introducirDinero(cafetera, productoVenta.getPrecio() - cafetera.getCajero().getSaldoCliente(), true);
                                 } catch (SaldoInsuficienteExcepcion f) {
-                                    throw f;
+                                    reintentarVenta = false;
                                 }
+                            } else {
+                                System.out.println("Venta no realizada.");
                             }
                         } catch (DepositoInsuficienteExcepcion e) {
                             System.out.println("DEBUG excepcion e");
                         }
-                    } while (true);
+                    } while (reintentarVenta);
                     
                 // Si de código se ha introducido 0, terminar la venta
                 } else {
