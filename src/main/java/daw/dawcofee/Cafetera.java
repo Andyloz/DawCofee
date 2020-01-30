@@ -7,6 +7,7 @@ package daw.dawcofee;
 
 import daw.dawcofee.exceptions.DepositoInsuficienteExcepcion;
 import daw.dawcofee.exceptions.SaldoInsuficienteExcepcion;
+import java.math.BigDecimal;
 
 /**
  *
@@ -103,7 +104,7 @@ public class Cafetera {
     
     public void venta(Producto producto) throws SaldoInsuficienteExcepcion {
         
-        if (cajero.getSaldoCliente() < producto.getPrecio()) {
+        if (cajero.getSaldoCliente().compareTo(producto.getPrecio()) < 0) {
             throw new SaldoInsuficienteExcepcion();
         } else {
             // Almacenar la cantidad de cada depósito antes de vaciarlos.
@@ -137,7 +138,7 @@ public class Cafetera {
             } else {
                 buffer2 = productos[i];
                 
-                buffer1 = buffer1.getPrecio() < buffer2.getPrecio()
+                buffer1 = buffer1.getPrecio().compareTo(buffer2.getPrecio()) < 0
                         ? buffer1
                         : buffer2;
             }

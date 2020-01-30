@@ -7,6 +7,7 @@ package daw.dawcofee;
 
 import daw.dawcofee.exceptions.DepositoInsuficienteExcepcion;
 import daw.dawcofee.exceptions.SaldoInsuficienteExcepcion;
+import java.math.BigDecimal;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -302,7 +303,7 @@ public class Interfaz {
                 case 3:
                     
                     System.out.println("Saldo de ventas realizadas: " 
-                            + Cajero.formatearDinero(cafetera.getCajero().getDinero()));
+                            + Cajero.formatearDinero(cafetera.getCajero().getSaldoCajero().doubleValue()));
                     
                     break;
                 case 4:
@@ -315,7 +316,7 @@ public class Interfaz {
         } while (!salir);
     }
     
-    static void introducirDinero(Cafetera cafetera, double minImporte, boolean opCancelar) throws SaldoInsuficienteExcepcion {
+    static void introducirDinero(Cafetera cafetera, BigDecimal minImporte, boolean opCancelar) throws SaldoInsuficienteExcepcion {
         
         // El método podrá ser configurado mediante el booleano opCancelar para 
         // que se pueda elegir no meter dinero. Para ello, el usuario deberá
@@ -323,7 +324,7 @@ public class Interfaz {
         
         
         Scanner sc = new Scanner(System.in);
-        double ingreso = 0.0; // Variable que almacena el dinero que metemos
+        BigDecimal ingreso = BigDecimal.valueOf(0.00); // Variable que almacena el dinero que metemos
         
         do {
             System.out.println("Introduzca dinero (decimales con coma):");
@@ -332,15 +333,15 @@ public class Interfaz {
             }
             try {
                 // Introducción por teclado del dinero
-                ingreso = sc.nextDouble();
+                ingreso = BigDecimal.valueOf(sc.nextDouble());
                 
-                if (opCancelar && ingreso == 0) {
+                if (opCancelar && ingreso.compareTo(BigDecimal.valueOf(0.00)) == 0) {
                     System.out.println("Dinero no introducido.");
                     // Se terminará la ejecución del método si introduce 0
                     throw new SaldoInsuficienteExcepcion();
                     
-                } else if (ingreso + cafetera.getCajero().getSaldoCliente() < minImporte) {
-                    System.out.println("Introduzca al menos "+Cajero.formatearDinero(minImporte)+".");
+                } else if (ingreso.add(cafetera.getCajero().getSaldoCliente()).compareTo(minImporte) < 0) {
+                    System.out.println("Introduzca al menos "+Cajero.formatearDinero(minImporte.doubleValue())+".");
                     System.out.println("----------------------------");
                 }
                 System.out.println();
@@ -354,10 +355,10 @@ public class Interfaz {
                 sc.nextLine();
             }
         // Repetir mientras el saldo sea menor que el importe mínimo requerido
-        } while(ingreso + cafetera.getCajero().getSaldoCliente() < minImporte);
+        } while(ingreso.add(cafetera.getCajero().getSaldoCliente()).compareTo(minImporte) < 0);
         
         // Finalmente, añadir el importe al saldo si supera el importe mínimo
-        if (ingreso >= minImporte) {
+        if (ingreso.compareTo(minImporte) >= 0) {
             cafetera.getCajero().añadirSaldo(ingreso);
         }
     }
@@ -447,7 +448,7 @@ public class Interfaz {
                 for (Producto producto : cafetera.getProductos()) {
                     System.out.println(producto.getCodigo()
                             + ". " + producto.getNombre()
-                            + " (" + Cajero.formatearDinero(producto.getPrecio()) + ")");
+                            + " (" + Cajero.formatearDinero(producto.getPrecio().doubleValue()) + ")");
                 }
                 System.out.println("");
                 
@@ -479,10 +480,10 @@ public class Interfaz {
                         } catch (SaldoInsuficienteExcepcion e) {
                             System.out.println("El saldo no es suficiente \n" +
                                     "Le falta " +
-                                    Cajero.formatearDinero(productoVenta.getPrecio() - cafetera.getCajero().getSaldoCliente()) + " € más. \n");
+                                    Cajero.formatearDinero(productoVenta.getPrecio().subtract(cafetera.getCajero().getSaldoCliente()).doubleValue()) + " más. \n");
                             if (siNo("¿Le gustaría introducir más dinero? s/n")) {
                                 try {
-                                    introducirDinero(cafetera, productoVenta.getPrecio() - cafetera.getCajero().getSaldoCliente(), true);
+                                    introducirDinero(cafetera, productoVenta.getPrecio().subtract(cafetera.getCajero().getSaldoCliente()), true);
                                 } catch (SaldoInsuficienteExcepcion f) {
                                     reintentarVenta = false;
                                 }

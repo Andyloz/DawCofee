@@ -5,6 +5,7 @@
  */
 package daw.dawcofee;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
 /**
@@ -18,7 +19,7 @@ import java.text.DecimalFormat;
 
 public class Producto {
     private final String nombre;
-    private double precio;
+    private BigDecimal precio;
     private final String codigo;
     // Agua o leche
     private final Deposito depBase;
@@ -38,7 +39,7 @@ public class Producto {
             double cantidadPolvo, Deposito depLeche, double cantidadLeche) {
         
         this.nombre = nombre;
-        this.precio = precio;
+        this.precio = BigDecimal.valueOf(precio);
         this.codigo = codigo;
         this.depBase = depBase;
         this.cantidadBase = cantidadBase;
@@ -57,11 +58,11 @@ public class Producto {
         return nombre;
     }
 
-    public double getPrecio() {
+    public BigDecimal getPrecio() {
         return precio;
     }
 
-    public void setPrecio(double precio) {
+    public void setPrecio(BigDecimal precio) {
         this.precio = precio;
     }
 

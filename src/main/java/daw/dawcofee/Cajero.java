@@ -5,6 +5,7 @@
  */
 package daw.dawcofee;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
 /**
@@ -17,47 +18,52 @@ import java.text.DecimalFormat;
  */
 
 public class Cajero {
-    private double saldoCajero; // Dinero acumulado por las ventas
-    private double saldoCliente;
+    private BigDecimal saldoCajero; // Dinero acumulado por las ventas
+    private BigDecimal saldoCliente;
 
-    public double getDinero() {
+    public Cajero() {
+        saldoCajero = BigDecimal.valueOf(0.00);
+        saldoCliente = BigDecimal.valueOf(0.00);
+    }
+    
+    public BigDecimal getSaldoCajero() {
         return saldoCajero;
     }
 
-    public void setDinero(double dinero) {
-        this.saldoCajero = dinero;
+    public void setSaldoCajero(BigDecimal saldoCajero) {
+        this.saldoCajero = saldoCajero;
     }
 
-    public double getSaldoCliente() {
+    public BigDecimal getSaldoCliente() {
         return saldoCliente;
     }
 
-    public void setSaldoCliente(double saldoCliente) {
+    public void setSaldoCliente(BigDecimal saldoCliente) {
         this.saldoCliente = saldoCliente;
     }
     
     // Método que suma al saldo del cliente una cantidad posterior
     
-    public void añadirSaldo(double saldo) {
-        this.saldoCliente += saldo;
+    public void añadirSaldo(BigDecimal saldo) {
+        this.saldoCliente.add(saldo);
     }
     
     // Método que reinicia el saldo una vez se ha realizado la compra
     
     public void reiniciarSaldo() {
-        this.saldoCliente = 0;
+        this.saldoCliente = BigDecimal.valueOf(0.00);
     }
     
     // Método que suma al dinero total el dinero de la última venta
     
-    public void añadirDinero(double venta) {
-        this.saldoCajero += venta;
+    public void añadirDinero(BigDecimal venta) {
+        this.saldoCajero.add(venta);
     }
     
     // Método que reinicia el valor de dinero si se "extrae" de la cafetera
     
     public void vaciarCajero() {
-        this.saldoCajero = 0;
+        this.saldoCajero = BigDecimal.valueOf(0.00);
     }
     
     // Formatear dinero
