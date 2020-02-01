@@ -59,16 +59,11 @@ public class Usuario {
         }
     }
     
-    // Método que verifica la credencial Usuario
+    // Método que verifica las credenciales
     
-    public static boolean verificarUsuario(String usuario){
-        return Usuario.username.equals(usuario);   
-    }
-    
-    // Método que verifica la credencial contraseña
-    
-    public static boolean verificarContrasena(String contrasena) {
-        return Usuario.password.equals(contrasena);
+    public static boolean verificar(String usuario, String password){
+        return Usuario.username.equals(usuario) &&
+               Usuario.password.equals(password);   
     }
     
     // Getters y Setters
