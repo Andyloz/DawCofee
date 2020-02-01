@@ -108,7 +108,7 @@ public class Producto {
 
     @Override
     public String toString() {
-        return "Producto{" + "nombre=" + nombre + ", precio=" + precio + ", codigo=" + codigo + ", depBase=" + depBase + ", cantidadBase=" + cantidadBase + ", depPolvo=" + depPolvo + ", cantidadPolvo=" + cantidadPolvo + ", depLeche=" + depLeche + ", cantidadLeche=" + cantidadLeche + '}';
+        return "Cafe listo: "+nombre+".";
     }
 
     

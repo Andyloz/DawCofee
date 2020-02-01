@@ -42,10 +42,14 @@ public class Cajero {
         this.saldoCliente = saldoCliente;
     }
     
-    // Método que suma al saldo del cliente una cantidad posterior
+    // Método que suma/resta al saldo del cliente una cantidad posterior
     
-    public void añadirSaldo(BigDecimal saldo) {
+    public void sumarSaldo(BigDecimal saldo) {
         this.saldoCliente = saldoCliente.add(saldo);
+    }
+    
+    public void restarSaldo(BigDecimal saldo) {
+        this.saldoCliente = saldoCliente.subtract(saldo);
     }
     
     // Método que reinicia el saldo una vez se ha realizado la compra
@@ -57,7 +61,7 @@ public class Cajero {
     // Método que suma al dinero total el dinero de la última venta
     
     public void añadirDinero(BigDecimal venta) {
-        this.saldoCajero.add(venta);
+        this.saldoCajero = saldoCajero.add(venta);
     }
     
     // Método que reinicia el valor de dinero si se "extrae" de la cafetera
