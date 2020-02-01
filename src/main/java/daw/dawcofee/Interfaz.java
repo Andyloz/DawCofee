@@ -36,6 +36,7 @@ public class Interfaz {
             System.out.println("La contraseña debe tener entre 5 y 30 "
                     + "caracteres, de los cuales \nal menos 3 deben ser "
                     + "números y al menos 1 mayúscula");
+            System.out.println("");
             
             String usuario;
             String contrasena;
@@ -68,27 +69,48 @@ public class Interfaz {
 
         } else {
             boolean hecho = false;
+            
+            String usuario;
+            String contrasena;
 
             do {
 
                 System.out.print("Usuario: ");
+                usuario = sc.nextLine();
+                    
+                System.out.print("Contraseña: ");
+                contrasena = sc.nextLine();
 
-                if (Usuario.verificarUsuario(sc.nextLine())) {
+                if (Usuario.verificar(usuario, contrasena)) {
                     hecho = true;
+                } else {
+                    System.out.println("El Usuario o la contraseña "
+                            + "no son correctos");
+                    System.out.print("¿Intentar de nuevo? (s/n)");
+                    
+                    String salir;
+                    boolean respuesta = false;
+                    
+                    do {
+                    
+                        salir = sc.nextLine();
+
+                        if (salir.equalsIgnoreCase("s")) {
+                            respuesta = true;
+                        } else if (salir.equalsIgnoreCase("n")) {
+                            return false;
+                        } else {
+                            System.out.print("Introduzca exactamente 's' (sí) "
+                                    + "o 'n' (no): ");
+                        }
+
+                    } while (!respuesta);    
+                    System.out.println("");
+                    
                 }
                 
             } while (!hecho);
 
-            do {
-
-                hecho = false;
-
-                if (Usuario.verificarContrasena(sc.nextLine())) {
-                    hecho = true;
-                }
-
-            } while (!hecho);
-            
             return true;
         }
         
@@ -173,6 +195,7 @@ public class Interfaz {
         switch (opcion) {
             case 1:
                 cafetera.getDepositos()[numDep].rellenar();
+                break;
             case 2:
                 
                 // Ingreso de la cantidad a ingresar
@@ -292,10 +315,10 @@ public class Interfaz {
                         System.out.println("");
                     }
                     
-                    System.out.println("El usuario de administrador es :"
+                    System.out.println("El usuario de administrador es: "
                         + Usuario.getUsername());
                     System.out.println("La contraseña de administrador es: " 
-                            + Usuario.getPassword());
+                        + Usuario.getPassword());
                     
                     System.out.println("");
                     
@@ -326,6 +349,9 @@ public class Interfaz {
         Scanner sc = new Scanner(System.in);
         BigDecimal ingreso = BigDecimal.valueOf(0.00); // Variable que almacena el dinero que metemos
         
+        // Variable que guarda cada suma al ingreso
+        BigDecimal buffer = BigDecimal.valueOf(0.00);
+        
         if (opCancelar) {
             System.out.print("Introduzca dinero (decimales con coma).\n"
                              + "(Si quiere su dinero de vuelta, introduzca 0): ");
@@ -335,8 +361,14 @@ public class Interfaz {
         
         do {  
             try {
+                // Reinicio del buffer
+                buffer = BigDecimal.valueOf(0.00);
+                
                 // Introducción por teclado del dinero
-                ingreso = BigDecimal.valueOf(sc.nextDouble());
+                buffer = BigDecimal.valueOf(sc.nextDouble());
+                
+                // Suma al ingreso del valor del buffer
+                ingreso = ingreso.add(buffer);
                 
                 if (opCancelar && ingreso.compareTo(BigDecimal.valueOf(0.00)) == 0) {
                     System.out.println("Dinero no introducido.");
@@ -344,7 +376,9 @@ public class Interfaz {
                     throw new SaldoInsuficienteExcepcion();
                     
                 } else if (ingreso.compareTo(minImporte) < 0) {
-                    System.out.print("Introduzca al menos "+Cajero.formatearDinero(minImporte.doubleValue())+": ");
+                    System.out.print("Introduzca al menos "
+                            + Cajero.formatearDinero(minImporte.subtract(ingreso).doubleValue())
+                            + " más: ");
                 }
             } catch (InputMismatchException e) {
             // Si no introduce un double no saldrá del bulce
@@ -357,10 +391,8 @@ public class Interfaz {
         System.out.println();
         System.out.println();
         
-        // Finalmente, añadir el importe al saldo si supera el importe mínimo
-        if (ingreso.compareTo(minImporte) >= 0) {
-            cafetera.getCajero().sumarSaldo(ingreso);
-        }
+        // Añadir el importe al saldo si supera el importe mínimo
+        cafetera.getCajero().sumarSaldo(ingreso);
     }
     
     static boolean siNo(String msg) {
