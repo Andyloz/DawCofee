@@ -48,7 +48,7 @@ public class Deposito {
     
     // Métodos modificadores de la cantidad
     public void actualizarUmbral() {
-        indicadorUmbr = capMaxima * capUmbral <= cantidad;
+        indicadorUmbr = (capMaxima * capUmbral)/100 <= cantidad;
     }
     
     public void rellenar() { // Al máximo
