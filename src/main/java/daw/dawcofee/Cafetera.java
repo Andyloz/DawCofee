@@ -116,16 +116,30 @@ public class Cafetera {
             // Vaciado de depósitos
             try {
                 producto.getDepBase().vaciar(producto.getCantidadBase());
-                producto.getDepPolvo().vaciar(producto.getCantidadPolvo());
-                producto.getDepLeche().vaciar(producto.getCantidadLeche());
-                
-                cajero.añadirDinero(producto.getPrecio());
-                cajero.restarSaldo(producto.getPrecio());
             } catch (DepositoInsuficienteExcepcion e) {
-                producto.getDepBase().setCantidad(cantidadBase);
-                producto.getDepPolvo().setCantidad(cantidadPolvo);
-                producto.getDepLeche().setCantidad(cantidadLeche);
+                producto.getDepBase().setCantidad(cantidadBase);       
+            } catch (NullPointerException e) {
+                // No existe
             }
+            
+            try {
+                producto.getDepPolvo().vaciar(producto.getCantidadPolvo());
+            } catch (DepositoInsuficienteExcepcion e) {
+                producto.getDepPolvo().setCantidad(cantidadPolvo);
+            } catch (NullPointerException e) {
+                // No existe
+            }
+            
+            try {
+                producto.getDepLeche().vaciar(producto.getCantidadLeche());
+            } catch (DepositoInsuficienteExcepcion e) {
+                producto.getDepLeche().setCantidad(cantidadLeche);
+            } catch (NullPointerException e) {
+                // No existe
+            }
+            
+            cajero.añadirDinero(producto.getPrecio());
+            cajero.restarSaldo(producto.getPrecio());
         }
     }
     
