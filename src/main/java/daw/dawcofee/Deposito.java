@@ -40,6 +40,7 @@ public class Deposito {
             this.cantidad = cantidad;
             this.capUmbral = capUmbral;
             this.tipo = tipo;
+            this.indicadorUmbr = (capMaxima * capUmbral) <= cantidad;
         } else {
             throw new Exception("El tipo debe ser 'líquido' o 'sólido'.");
         }
@@ -48,7 +49,7 @@ public class Deposito {
     
     // Métodos modificadores de la cantidad
     public void actualizarUmbral() {
-        indicadorUmbr = (capMaxima * capUmbral)/100 <= cantidad;
+        indicadorUmbr = (capMaxima * capUmbral) <= cantidad;
     }
     
     public void rellenar() { // Al máximo
@@ -105,8 +106,8 @@ public class Deposito {
     
     public String isIndicadorUmbrF() {
         String var = indicadorUmbr
-                ? "El depósito está por debajo del umbral"
-                : "El depósito está por encima del umbral";
+                ? "El depósito está por encima del umbral"
+                : "El depósito está por debajo del umbral";
         return var;
     }
     
