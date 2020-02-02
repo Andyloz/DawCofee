@@ -368,7 +368,12 @@ public class Interfaz {
                 buffer = BigDecimal.valueOf(sc.nextDouble());
                 
                 // Suma al ingreso del valor del buffer
-                ingreso = ingreso.add(buffer);
+                // Comprueba que el valor que se introduzca sea mayor que 0
+                if (buffer.compareTo(BigDecimal.ZERO) > 0) {
+                    ingreso = ingreso.add(buffer);
+                } else {
+                    throw new InputMismatchException();
+                }
                 
                 if (opCancelar && ingreso.compareTo(BigDecimal.valueOf(0.00)) == 0) {
                     System.out.println("Dinero no introducido.");
