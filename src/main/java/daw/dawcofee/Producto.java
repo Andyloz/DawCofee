@@ -43,10 +43,23 @@ public class Producto {
         this.codigo = codigo;
         this.depBase = depBase;
         this.cantidadBase = cantidadBase;
-        this.depPolvo = depPolvo;
-        this.cantidadPolvo = cantidadPolvo;
-        this.depLeche = depLeche;
-        this.cantidadLeche = cantidadLeche;
+        
+        // Si no se especifica el depósito, se inicializará a cualquiera y se 
+        // pondrá su cantidad a 0
+        if (depPolvo == null) {
+            this.depPolvo = depBase;
+            this.cantidadPolvo = 0;
+        } else {
+            this.depPolvo = depPolvo;
+            this.cantidadPolvo = cantidadPolvo;
+        }
+        if (depLeche == null) {
+            this.depLeche = depBase;
+            this.cantidadLeche = 0;
+        } else {
+            this.depLeche = depLeche;
+            this.cantidadLeche = cantidadLeche;
+        }
     }
     
     

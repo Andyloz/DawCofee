@@ -113,33 +113,21 @@ public class Cafetera {
             double cantidadPolvo = producto.getCantidadPolvo();
             double cantidadLeche = producto.getCantidadLeche();
             
-            // Vaciado de depósitos
+            /////   Vaciado de depósitos   /////
+            // Si alguno se vacía satisfactoriamente, pero el siguiente lanza una
+            // excepción, se dejarán todos los depósitos como estaban
             try {
                 producto.getDepBase().vaciar(producto.getCantidadBase());
-            } catch (DepositoInsuficienteExcepcion e) {
-                producto.getDepBase().setCantidad(cantidadBase);       
-            } catch (NullPointerException e) {
-                // No existe
-            }
-            
-            try {
                 producto.getDepPolvo().vaciar(producto.getCantidadPolvo());
-            } catch (DepositoInsuficienteExcepcion e) {
-                producto.getDepPolvo().setCantidad(cantidadPolvo);
-            } catch (NullPointerException e) {
-                // No existe
-            }
-            
-            try {
                 producto.getDepLeche().vaciar(producto.getCantidadLeche());
+                
+                cajero.añadirDinero(producto.getPrecio());
+                cajero.restarSaldo(producto.getPrecio());
             } catch (DepositoInsuficienteExcepcion e) {
+                producto.getDepBase().setCantidad(cantidadBase);
+                producto.getDepPolvo().setCantidad(cantidadPolvo);
                 producto.getDepLeche().setCantidad(cantidadLeche);
-            } catch (NullPointerException e) {
-                // No existe
             }
-            
-            cajero.añadirDinero(producto.getPrecio());
-            cajero.restarSaldo(producto.getPrecio());
         }
     }
     
