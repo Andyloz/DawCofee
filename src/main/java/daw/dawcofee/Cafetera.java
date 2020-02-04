@@ -7,96 +7,82 @@ package daw.dawcofee;
 
 import daw.dawcofee.exceptions.DepositoInsuficienteExcepcion;
 import daw.dawcofee.exceptions.SaldoInsuficienteExcepcion;
+import java.util.ArrayList;
 
 /**
  *
  * @author lozan
  */
 public class Cafetera {
+    private ArrayList<Deposito> depositos;
+    private ArrayList<Producto> productos;
+    private Cajero cajero;
 
-    // Componentes Depósito
-    private Deposito dep1, dep2, dep3, dep4, dep5, dep6, dep7;
+    public Cafetera(ArrayList<Deposito> depositos, ArrayList<Producto> productos, Cajero cajero) {
+        this.depositos = depositos;
+        this.productos = productos;
+        this.cajero = cajero;
+    }
     
-    // Componentes Producto
-    private Producto prod1, prod2, prod3, prod4, prod5, prod6, prod7, prod8, prod9, 
-            prod10, prod11;
-    
-    // Array de productos
-    //Producto[] productos = {prod1, prod2, prod3, prod4, prod5, prod6, prod7, prod8, prod9, prod10, prod11}; 
-    private Producto productos[];
-    
-    // Array de depósitos
-    // Deposito[] depositos = {dep1, dep2, dep3, dep4, dep5, dep6, dep7};
-    private Deposito depositos[];
-    
-    // Cajero
-    private Cajero cajero = new Cajero();
-    
-    // Método constructor
-    public Cafetera() throws Exception {
-        // Inicialización del cajero
-        this.cajero = new Cajero();
-
-        // Inicialización de depósitos
-        this.dep1 = new Deposito("agua", 10000, 10000, 0.33, "líquido");
-        this.dep2 = new Deposito("leche", 10000, 10000, 0.33, "líquido");
-        this.dep3 = new Deposito("café", 10000, 10000, 0.33, "sólido");
-        this.dep4 = new Deposito("café descafeinado", 10000, 10000, 0.33, "sólido");
-        this.dep5 = new Deposito("cacao", 10000, 10000, 0.33, "sólido");
-        this.dep6 = new Deposito("azúcar", 10000, 10000, 0.33, "sólido");
-        this.dep7 = new Deposito("sacarina", 10000, 10000, 0.33, "sólido");
-        
-        // Inicialización de productos
-        this.prod1 = new Producto("Café", 0.80, "1",
-                this.dep1, 50, 
-                this.dep3, 6, 
-                this.dep2, 0);
-        this.prod2 = new Producto("Café descafeinado", 0.80, "2", 
-                this.dep1, 50, 
-                this.dep4, 6, 
-                this.dep2, 0);
-        this.prod3 = new Producto("Café largo", 0.90, "3", 
-                this.dep1, 100, 
-                this.dep3, 12, 
-                this.dep2, 0);
-        this.prod4 = new Producto("Café largo descafeinado", 0.90, "4", 
-                this.dep1, 100, 
-                this.dep4, 12, 
-                this.dep2, 0);
-        this.prod5 = new Producto("Café con leche", 1.10, "5", 
-                this.dep1, 50, 
-                this.dep3, 6, 
-                this.dep2, 50);
-        this.prod6 = new Producto("Café descafeinado con leche", 1.10, "6", 
-                this.dep1, 50, 
-                this.dep4, 6, 
-                this.dep2, 50);
-        this.prod7 = new Producto("Café cortado", 1.00, "7", 
-                this.dep1, 50, 
-                this.dep3, 6, 
-                this.dep2, 25);
-        this.prod8 = new Producto("Café cortado descafeinado", 1.00, "8", 
-                this.dep1, 50, 
-                this.dep4, 6, 
-                this.dep2, 25);
-        this.prod9 = new Producto("Chocolate", 0.90, "9", 
-                this.dep2, 100, 
-                this.dep5, 12, 
-                null, 0);
-        this.prod10 = new Producto("Leche fría", 0.90, "10", 
-                this.dep2, 100, 
-                null, 0, 
-                null, 0);
-        this.prod11 = new Producto("Leche caliente", 0.90, "11", 
-                this.dep2, 100, 
-                null, 0, 
-                null, 0);
-        
-        // Array de productos
-        productos = new Producto[]{prod1, prod2, prod3, prod4, prod5, prod6, prod7, prod8, prod9, prod10, prod11};
-        
-        // Array de depósitos
-        depositos = new Deposito[]{dep1, dep2, dep3, dep4, dep5, dep6, dep7};
+//    // Método constructor
+//    public Cafetera() throws Exception {
+//        // Inicialización del cajero
+//        this.cajero = new Cajero();
+//        
+//        // Inicialización de depósitos
+//        
+//        
+//        // Inicialización de productos
+//        this.prod1 = new Producto("Café", 0.80, "1",
+//                this.dep1, 50, 
+//                this.dep3, 6, 
+//                this.dep2, 0);
+//        this.prod2 = new Producto("Café descafeinado", 0.80, "2", 
+//                this.dep1, 50, 
+//                this.dep4, 6, 
+//                this.dep2, 0);
+//        this.prod3 = new Producto("Café largo", 0.90, "3", 
+//                this.dep1, 100, 
+//                this.dep3, 12, 
+//                this.dep2, 0);
+//        this.prod4 = new Producto("Café largo descafeinado", 0.90, "4", 
+//                this.dep1, 100, 
+//                this.dep4, 12, 
+//                this.dep2, 0);
+//        this.prod5 = new Producto("Café con leche", 1.10, "5", 
+//                this.dep1, 50, 
+//                this.dep3, 6, 
+//                this.dep2, 50);
+//        this.prod6 = new Producto("Café descafeinado con leche", 1.10, "6", 
+//                this.dep1, 50, 
+//                this.dep4, 6, 
+//                this.dep2, 50);
+//        this.prod7 = new Producto("Café cortado", 1.00, "7", 
+//                this.dep1, 50, 
+//                this.dep3, 6, 
+//                this.dep2, 25);
+//        this.prod8 = new Producto("Café cortado descafeinado", 1.00, "8", 
+//                this.dep1, 50, 
+//                this.dep4, 6, 
+//                this.dep2, 25);
+//        this.prod9 = new Producto("Chocolate", 0.90, "9", 
+//                this.dep2, 100, 
+//                this.dep5, 12, 
+//                null, 0);
+//        this.prod10 = new Producto("Leche fría", 0.90, "10", 
+//                this.dep2, 100, 
+//                null, 0, 
+//                null, 0);
+//        this.prod11 = new Producto("Leche caliente", 0.90, "11", 
+//                this.dep2, 100, 
+//                null, 0, 
+//                null, 0);
+//        
+//        // Array de productos
+//        productos = new Producto[]{prod1, prod2, prod3, prod4, prod5, prod6, prod7, prod8, prod9, prod10, prod11};
+//        
+//        // Array de depósitos
+//        depositos = new Deposito[]{dep1, dep2, dep3, dep4, dep5, dep6, dep7};
     }
     
     

@@ -8,6 +8,7 @@ package daw.dawcofee;
 import daw.dawcofee.exceptions.DepositoInsuficienteExcepcion;
 import daw.dawcofee.exceptions.SaldoInsuficienteExcepcion;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -416,7 +417,29 @@ public class Interfaz {
     }
     
     public static void main(String[] args) throws Exception {
-        Cafetera cafetera = new Cafetera();
+        
+                    ////////////////////
+                    // Inicialización //
+                    ////////////////////
+
+        // Depósitos
+        ArrayList<Deposito> depositos;
+        depositos.add(new Deposito(new Materia(MateriaEnum.AGUA), 10000, 10000, 0.33));
+        depositos.add(new Deposito(new Materia(MateriaEnum.CAFE), 10000, 10000, 0.33));
+        depositos.add(new Deposito(new Materia(MateriaEnum.CAFE_DESCAFEINADO), 10000, 10000, 0.33));
+        depositos.add(new Deposito(new Materia(MateriaEnum.CACAO), 10000, 10000, 0.33));
+        depositos.add(new Deposito(new Materia(MateriaEnum.AZUCAR), 10000, 10000, 0.33));
+        depositos.add(new Deposito(new Materia(MateriaEnum.SACARINA), 10000, 10000, 0.33));
+        
+        // Productos
+        ArrayList<Producto> productos;
+        productos.add(new Producto("Café", BigDecimal.valueOf(0.80), 1,
+                new Materia(MateriaEnum.AGUA), 50,
+                new Materia(MateriaEnum.CAFE), 6,
+                matLeche, 0));
+        
+        
+        Cafetera cafetera = new Cafetera(depositos, productos, cajero);
         Scanner sc = new Scanner(System.in);
         int codigo = -1;
         Producto productoVenta = null;

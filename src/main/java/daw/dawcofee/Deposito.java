@@ -13,11 +13,10 @@ import java.text.DecimalFormat;
  * @author lozan
  */
 public class Deposito {
-    private String contenido;
+    private Materia contenido;
     private double capMaxima;
     private double cantidad;
     private double capUmbral;
-    private String tipo;
     private boolean indicadorUmbr;
 
     // Vamos a distinguir entre depósito de líquido y sólido
@@ -25,24 +24,20 @@ public class Deposito {
     // Unidad sólidos: gramos
     
     
-    public Deposito(String contenido, double capMaxima, double cantidad, double capUmbral, String tipo) throws Exception {
+    public Deposito(Materia contenido, double capMaxima, double cantidad, double capUmbral) throws Exception {
         // Comprobaciones de valores pasados por parámetros
         if (capMaxima <= 0) {
-            throw new Exception("La capacidad máxima debe ser mayor que 0.");
+            throw new IllegalArgumentException("La capacidad máxima debe ser mayor que 0.");
         } else if (cantidad > capMaxima || cantidad < 0) {
-            throw new Exception("La cantidad debe estar entre la capacidad máxima y 0 (incluidos).");
-        } else if (capUmbral < 0 && capUmbral > 1) {
-            throw new Exception("El umbral debe estar entre 1.00 y 0.00 (incluidos).");
-        } else if (tipo.equals("líquido") || tipo.equals("sólido")) {
-            // Asinación de valores a atributos del objeto
+            throw new IllegalArgumentException("La cantidad debe estar entre la capacidad máxima y 0 (incluidos).");
+        } else if (capUmbral < 0 || capUmbral > 1) {
+            throw new IllegalArgumentException("El umbral debe estar entre 1.00 y 0.00 (incluidos).");
+        } else {
             this.contenido = contenido;
             this.capMaxima = capMaxima;
             this.cantidad = cantidad;
             this.capUmbral = capUmbral;
-            this.tipo = tipo;
             this.indicadorUmbr = (capMaxima * capUmbral) >= cantidad;
-        } else {
-            throw new Exception("El tipo debe ser 'líquido' o 'sólido'.");
         }
     }
     
@@ -73,7 +68,7 @@ public class Deposito {
     
     public void vaciar(double cantidad) {
         if (this.cantidad - cantidad < 0) {
-            throw new DepositoInsuficienteExcepcion(this.contenido);
+            throw new DepositoInsuficienteExcepcion(this.contenido.toString());
         } else {
             this.cantidad -= cantidad;
             this.actualizarUmbral();
@@ -84,7 +79,7 @@ public class Deposito {
     
     // Get formateado
     public String getCapMaximaF() {
-        if (tipo.equals("líquido")) {
+        if (contenido.getTipo().equals("líquido")) {
             return capMaxima+" ml";
         } else {
             return capMaxima+" gr";
@@ -92,7 +87,7 @@ public class Deposito {
     }
     
     public String getCantidadF() {
-        if (tipo.equals("líquido")) {
+        if (contenido.getTipo().equals("líquido")) {
             return cantidad+" ml";
         } else {
             return cantidad+" gr";
@@ -113,12 +108,16 @@ public class Deposito {
     
     
     
-    // Getter y Setters
-    public String getContenido() {
+                //////////////////////
+                // Getter y Setters //
+                //////////////////////
+    
+    
+    public Materia getContenido() {
         return contenido;
     }
 
-    public void setContenido(String contenido) {
+    public void setContenido(Materia contenido) {
         this.contenido = contenido;
     }
 
@@ -144,14 +143,6 @@ public class Deposito {
 
     public void setCapUmbral(double capUmbral) {
         this.capUmbral = capUmbral;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
     }
 
     public boolean isIndicadorUmbr() {
