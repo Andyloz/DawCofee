@@ -423,7 +423,7 @@ public class Interfaz {
                     ////////////////////
 
         // Depósitos
-        ArrayList<Deposito> depositos;
+        ArrayList<Deposito> depositos = null;
         depositos.add(new Deposito(new Materia(MateriaEnum.AGUA), 10000, 10000, 0.33));
         depositos.add(new Deposito(new Materia(MateriaEnum.CAFE), 10000, 10000, 0.33));
         depositos.add(new Deposito(new Materia(MateriaEnum.CAFE_DESCAFEINADO), 10000, 10000, 0.33));
@@ -431,12 +431,124 @@ public class Interfaz {
         depositos.add(new Deposito(new Materia(MateriaEnum.AZUCAR), 10000, 10000, 0.33));
         depositos.add(new Deposito(new Materia(MateriaEnum.SACARINA), 10000, 10000, 0.33));
         
-        // Productos
-        ArrayList<Producto> productos;
-        productos.add(new Producto("Café", BigDecimal.valueOf(0.80), 1,
-                new Materia(MateriaEnum.AGUA), 50,
-                new Materia(MateriaEnum.CAFE), 6,
-                matLeche, 0));
+        
+        
+        ///////////////
+        // Productos //
+        ///////////////
+        
+        ArrayList<Producto> productos = new ArrayList<Producto>();
+        
+        ////// Café //////
+        
+        ArrayList<Materia> materiasCafe = new ArrayList<Materia>();
+        materiasCafe.add(new Materia(MateriaEnum.AGUA));
+        materiasCafe.add(new Materia(MateriaEnum.CAFE));
+        
+        ArrayList<Double> cantidadesCafe = new ArrayList<Double>();
+        cantidadesCafe.add(Double.valueOf(50));
+        cantidadesCafe.add(Double.valueOf(6));
+        
+        productos.add(new Producto("Café", BigDecimal.valueOf(0.80), "1", materiasCafe, cantidadesCafe));
+        
+        ////// Café descafeinado //////
+        
+        ArrayList<Materia> materiasCafeDescafeinado = new ArrayList<Materia>();
+        materiasCafeDescafeinado.add(new Materia(MateriaEnum.AGUA));
+        materiasCafeDescafeinado.add(new Materia(MateriaEnum.CAFE_DESCAFEINADO));
+        
+        ArrayList<Double> cantidadesCafeDescafeinado = new ArrayList<Double>();
+        cantidadesCafeDescafeinado.add(Double.valueOf(50));
+        cantidadesCafeDescafeinado.add(Double.valueOf(6));
+        
+        productos.add(new Producto("Café descafeinado", BigDecimal.valueOf(0.80), "2", materiasCafeDescafeinado, cantidadesCafeDescafeinado));
+        
+        ////// Café largo //////
+        
+        ArrayList<Materia> materiasCafeLargo = new ArrayList<Materia>();
+        materiasCafeLargo.add(new Materia(MateriaEnum.AGUA));
+        materiasCafeLargo.add(new Materia(MateriaEnum.CAFE));
+        
+        ArrayList<Double> cantidadesCafeLargo = new ArrayList<Double>();
+        cantidadesCafeLargo.add(Double.valueOf(100));
+        cantidadesCafeLargo.add(Double.valueOf(12));
+        
+        productos.add(new Producto("Café largo", BigDecimal.valueOf(0.90), "3", materiasCafeLargo, cantidadesCafeLargo));
+        
+        ////// Café largo descafeinado //////
+        
+        ArrayList<Materia> materiasCafeLargoDescafeinado = new ArrayList<Materia>();
+        materiasCafeLargoDescafeinado.add(new Materia(MateriaEnum.AGUA));
+        materiasCafeLargoDescafeinado.add(new Materia(MateriaEnum.CAFE_DESCAFEINADO));
+        
+        ArrayList<Double> cantidadesCafeLargoDescafeinado = new ArrayList<Double>();
+        cantidadesCafeLargoDescafeinado.add(Double.valueOf(100));
+        cantidadesCafeLargoDescafeinado.add(Double.valueOf(12));
+        
+        productos.add(new Producto("Café largo descafeinado", BigDecimal.valueOf(0.90), "4", materiasCafeLargoDescafeinado, cantidadesCafeLargoDescafeinado));
+        
+        ////// Café con leche //////
+        
+        ArrayList<Materia> materiasCafeLeche = new ArrayList<Materia>();
+        materiasCafeLeche.add(new Materia(MateriaEnum.AGUA));
+        materiasCafeLeche.add(new Materia(MateriaEnum.CAFE));
+        materiasCafeLeche.add(new Materia(MateriaEnum.LECHE));
+        
+        
+        ArrayList<Double> cantidadesCafeLeche = new ArrayList<Double>();
+        cantidadesCafeLeche.add(Double.valueOf(50));
+        cantidadesCafeLeche.add(Double.valueOf(6));
+        cantidadesCafeLeche.add(Double.valueOf(50));
+        
+        productos.add(new Producto("Café con leche", BigDecimal.valueOf(1.10), "5", materiasCafeLeche, cantidadesCafeLeche));
+        
+        ////// Café descafeinado con leche //////
+        
+        ArrayList<Materia> materiasCafeLecheDescafeinado = new ArrayList<Materia>();
+        materiasCafeLecheDescafeinado.add(new Materia(MateriaEnum.AGUA));
+        materiasCafeLecheDescafeinado.add(new Materia(MateriaEnum.CAFE_DESCAFEINADO));
+        materiasCafeLecheDescafeinado.add(new Materia(MateriaEnum.LECHE));
+        
+        ArrayList<Double> cantidadesCafeLecheDescafeinado = new ArrayList<Double>();
+        cantidadesCafeLecheDescafeinado.add(Double.valueOf(50));
+        cantidadesCafeLecheDescafeinado.add(Double.valueOf(6));
+        cantidadesCafeLecheDescafeinado.add(Double.valueOf(50));
+        
+        productos.add(new Producto("Café descafeinado con leche", BigDecimal.valueOf(1.10), "6", materiasCafeLecheDescafeinado, cantidadesCafeLecheDescafeinado));
+        
+        ////// Café cortado //////
+        
+        ArrayList<Materia> materiasCafeCortado = new ArrayList<Materia>();
+        materiasCafeCortado.add(new Materia(MateriaEnum.AGUA));
+        materiasCafeCortado.add(new Materia(MateriaEnum.CAFE));
+        materiasCafeCortado.add(new Materia(MateriaEnum.LECHE));
+        
+        ArrayList<Double> cantidadesCafeCortado = new ArrayList<Double>();
+        cantidadesCafeCortado.add(Double.valueOf(50));
+        cantidadesCafeCortado.add(Double.valueOf(6));
+        cantidadesCafeCortado.add(Double.valueOf(25));
+        
+        productos.add(new Producto("Café cortado", BigDecimal.valueOf(1.00), "7", materiasCafeCortado, cantidadesCafeCortado));
+        
+        ////// Café cortado descafeinado //////
+        
+        ArrayList<Materia> materiasCafeCortadoDescafeinado = new ArrayList<Materia>();
+        materiasCafeCortadoDescafeinado.add(new Materia(MateriaEnum.AGUA));
+        materiasCafeCortadoDescafeinado.add(new Materia(MateriaEnum.CAFE_DESCAFEINADO));
+        materiasCafeCortadoDescafeinado.add(new Materia(MateriaEnum.LECHE));
+        
+        ArrayList<Double> cantidadesCafeCortadoDescafeinado = new ArrayList<Double>();
+        cantidadesCafeCortadoDescafeinado.add(Double.valueOf(50));
+        cantidadesCafeCortadoDescafeinado.add(Double.valueOf(6));
+        cantidadesCafeCortadoDescafeinado.add(Double.valueOf(25));
+        
+        productos.add(new Producto("Café cortado descafeinado", BigDecimal.valueOf(1.00), "8", materiasCafeCortadoDescafeinado, cantidadesCafeCortadoDescafeinado));
+        
+        
+        
+        
+        
+        
         
         
         Cafetera cafetera = new Cafetera(depositos, productos, cajero);
