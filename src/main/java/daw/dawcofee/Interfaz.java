@@ -5,8 +5,10 @@
  */
 package daw.dawcofee;
 
+import daw.dawcofee.exceptions.ContrasenaIncorrectaExcepcion;
 import daw.dawcofee.exceptions.DepositoInsuficienteExcepcion;
 import daw.dawcofee.exceptions.SaldoInsuficienteExcepcion;
+import daw.dawcofee.exceptions.UsuarioIncorrectoExcepcion;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -18,7 +20,7 @@ import java.util.Scanner;
  */
 public class Interfaz {
     
-    static boolean validar() {
+    static boolean validar(Cafetera cafetera) {
         
         // Inicialización de flujo de entrada
         
@@ -28,8 +30,7 @@ public class Interfaz {
         
         System.out.println("--------------------------------");
         
-        if (Usuario.getUsername() == null || 
-            Usuario.getPassword() == null) {
+        if (cafetera.getUsuario() == null) {
             
             System.out.println("Cree una nueva cuenta de administrador:");
             System.out.println("El nombre de usuario de tener entre "
@@ -54,12 +55,12 @@ public class Interfaz {
                 contrasena = sc.nextLine();
                 
                 try {
-                    Usuario.crearUsuario(usuario, contrasena);
+                    cafetera.setUsuario(new Usuario(usuario,contrasena));
                     hecho = true;
                 } catch (InputMismatchException e) {
                     System.out.println("Ingrese valores válidos");
                     System.out.println("");
-                } catch (RuntimeException e) {
+                } catch (ContrasenaIncorrectaExcepcion | UsuarioIncorrectoExcepcion e) {
                     System.out.println(e.getMessage());
                     System.out.println("");
                 }
@@ -82,7 +83,7 @@ public class Interfaz {
                 System.out.print("Contraseña: ");
                 contrasena = sc.nextLine();
 
-                if (Usuario.verificar(usuario, contrasena)) {
+                if (cafetera.getUsuario().verificar(usuario, contrasena)) {
                     hecho = true;
                 } else {
                     System.out.println("El Usuario o la contraseña "
@@ -130,10 +131,10 @@ public class Interfaz {
         
         System.out.println("");
         System.out.println("--------------------------------");
-        for (int i = 0; i < cafetera.getDepositos().length; i++) {
+        for (int i = 0; i < cafetera.getDepositos().size(); i++) {
             System.out.println("Depósito " + (i + 1) + ": "
                     + "Depósito de "
-                    + cafetera.getDepositos()[i].getContenido());
+                    + cafetera.getDepositos().get(i).getContenido());
         }
         System.out.println("--------------------------------");
 
@@ -147,7 +148,7 @@ public class Interfaz {
             try {
                 numDep = sc.nextInt();
 
-                if (numDep >= 1 && numDep <= cafetera.getDepositos().length) {
+                if (numDep >= 1 && numDep <= cafetera.getDepositos().size()) {
                     salir = true;
                 } else {
                     System.out.println("El depósito no existe");
@@ -195,7 +196,7 @@ public class Interfaz {
         
         switch (opcion) {
             case 1:
-                cafetera.getDepositos()[numDep].rellenar();
+                cafetera.getDepositos().get(numDep).rellenar();
                 break;
             case 2:
                 
@@ -227,11 +228,11 @@ public class Interfaz {
                 // máximo
 
                 try {
-                    cafetera.getDepositos()[numDep].rellenar(cantidad);
+                    cafetera.getDepositos().get(numDep).rellenar(cantidad);
                 } catch (RuntimeException e) {
                     System.out.println("EL depósito ha llegado a su "
                             + "máxima capacidad");
-                    cafetera.getDepositos()[numDep].rellenar();
+                    cafetera.getDepositos().get(numDep).rellenar();
                 }
         }
     }
@@ -317,9 +318,9 @@ public class Interfaz {
                     }
                     
                     System.out.println("El usuario de administrador es: "
-                        + Usuario.getUsername());
+                        + cafetera.getUsuario().getUsername());
                     System.out.println("La contraseña de administrador es: " 
-                        + Usuario.getPassword());
+                        + cafetera.getUsuario().getPassword());
                     
                     System.out.println("");
                     
@@ -630,7 +631,7 @@ public class Interfaz {
                     try {
                         codigo = sc.nextInt();
                         
-                        if (codigo < 0 || codigo > cafetera.getProductos().length) {
+                        if (codigo < 0 || codigo > cafetera.getProductos().size()) {
                             throw new InputMismatchException();
                         }
                     } catch (InputMismatchException e) {
@@ -638,13 +639,13 @@ public class Interfaz {
                     } finally {
                         sc.nextLine();
                     }
-                } while (codigo < 0 || codigo > cafetera.getProductos().length);
+                } while (codigo < 0 || codigo > cafetera.getProductos().size());
                 System.out.println("-----------------------------");
                 System.out.println("");
                 
                 if (codigo != 0) {
                     // Seleccionamos el producto
-                    productoVenta = cafetera.getProductos()[codigo - 1];
+                    productoVenta = cafetera.getProductos().get(codigo - 1);
                     // Y procedemos a la venta
                     do {
                         reintentarVenta = false;
@@ -655,10 +656,12 @@ public class Interfaz {
                         } catch (SaldoInsuficienteExcepcion e) {
                             System.out.println("El saldo no es suficiente \n" +
                                     "Le falta " +
-                                    Cajero.formatearDinero(productoVenta.getPrecio().subtract(cafetera.getCajero().getSaldoCliente()).doubleValue()) + " más.");
+                                    Cajero.formatearDinero(productoVenta.getPrecio().subtract(cafetera.getCajero()
+                                            .getSaldoCliente()).doubleValue()) + " más.");
                             if (siNo("¿Le gustaría introducir más dinero? s/n: ")) {
                                 try {
-                                    introducirDinero(cafetera, productoVenta.getPrecio().subtract(cafetera.getCajero().getSaldoCliente()), true);
+                                    introducirDinero(cafetera, productoVenta.getPrecio()
+                                            .subtract(cafetera.getCajero().getSaldoCliente()), true);
                                     
                                     cafetera.venta(productoVenta);
                                     System.out.println(productoVenta.toString());
@@ -687,7 +690,7 @@ public class Interfaz {
                         // Fin de venta (vuelta atrás) //
                         /////////////////////////////////
                 
-            } else if (opcion == 2 && validar()) {
+            } else if (opcion == 2 && validar(cafetera)) {
                 administracion(cafetera);
             }
         }
