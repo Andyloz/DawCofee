@@ -5,17 +5,21 @@
  */
 package daw.dawcofee;
 
+import daw.dawcofee.exceptions.ContrasenaIncorrectaExcepcion;
+import daw.dawcofee.exceptions.UsuarioIncorrectoExcepcion;
+
 /**
  *
  * @author sander
  */
 public class Usuario {
-    private static String username;
-    private static String password;
+    private String username;
+    private String password;
     
     // Método que crea el usuario y contraseña por primera vez
 
-    public static void crearUsuario(String username, String password) {
+    public Usuario(String username, String password) throws UsuarioIncorrectoExcepcion, 
+            ContrasenaIncorrectaExcepcion {
         
         // Bucle for en el que se comprobará que la contraseña cumple con los
         // requisitos definidos revisando cada char que compone el String
@@ -38,41 +42,38 @@ public class Usuario {
         }
         
         if (username.length() <= 4 || username.length() >= 21) {
-            throw new RuntimeException("El nombre de usuario de tener entre "
-                    + "5 y 20 caracteres");
+            throw new UsuarioIncorrectoExcepcion(username);
         }
         
         if (((password.length() <= 4 || password.length() >= 31) 
                 || cantnumeros < 3) || cantMayus < 1) {
             
-            throw new RuntimeException("La contraseña debe tener entre 5 y 30 "
-                    + "caracteres, de los cuales \nal menos 3 deben ser "
-                    + "números y al menos 1 mayúscula");
+            throw new ContrasenaIncorrectaExcepcion(password);
         }
         
         if ((username.length() > 4 && username.length() < 21) && 
             (password.length() > 4 && password.length() < 31 
                 && cantnumeros >= 3 && cantMayus >= 1)) {
             
-            Usuario.username = username;
-            Usuario.password = password;
+            this.username = username;
+            this.password = password;
         }
     }
     
     // Método que verifica las credenciales
     
-    public static boolean verificar(String usuario, String password){
-        return Usuario.username.equals(usuario) &&
-               Usuario.password.equals(password);   
+    public boolean verificar(String usuario, String password){
+        return this.username.equals(usuario) &&
+               this.password.equals(password);   
     }
     
     // Getters y Setters
 
-    public static String getPassword() {
+    public String getPassword() {
         return password;
     }
 
-    public static void setPassword(String password) {
+    public void setPassword(String password) throws ContrasenaIncorrectaExcepcion {
         
         // Bucle for en el que se comprobará que la contraseña cumple con los
         // requisitos definidos revisando cada char que compone el String
@@ -96,25 +97,22 @@ public class Usuario {
         
         if (password.length() > 4 && password.length() < 31 
             && cantnumeros >= 3 && cantMayus >= 1) {
-            Usuario.password = password;
+            this.password = password;
         } else {
-            throw new RuntimeException("La contraseña debe tener entre 5 y 30 "
-                    + "caracteres, de los cuales \nal menos 3 deben ser "
-                    + "números y al menos 1 mayúscula");
+            throw new ContrasenaIncorrectaExcepcion(password);
         }
     }
 
-    public static String getUsername() {
+    public String getUsername() {
         return username;
     }
 
-    public static void setUsername(String username) {
+    public void setUsername(String username) throws UsuarioIncorrectoExcepcion {
         
         if (username.length() > 4 && username.length() < 21) {
-            Usuario.username = username;
+            this.username = username;
         } else {
-            throw new RuntimeException("El nombre de usuario de tener entre "
-                    + "5 y 20 caracteres");
+            throw new UsuarioIncorrectoExcepcion(username);
         }
     }
     
