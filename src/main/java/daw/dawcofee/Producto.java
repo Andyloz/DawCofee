@@ -6,7 +6,6 @@
 package daw.dawcofee;
 
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 /**
@@ -22,12 +21,14 @@ public class Producto {
     private final String nombre;
     private BigDecimal precio;
     private String codigo;
-    ArrayList<Materia> materias;
-    ArrayList<Double> cantidades;
+    private ArrayList<Materia> materias;
+    private ArrayList<Double> cantidades;
 
     
     
-    public Producto(String nombre, BigDecimal precio, String codigo, ArrayList<Materia> materias, ArrayList<Double> cantidades) {
+    public Producto(String nombre, BigDecimal precio, String codigo, ArrayList<Materia> materias, 
+            ArrayList<Double> cantidades) {
+        
         if (precio.compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException("El precio no puede ser menor que 0");
         }
@@ -44,7 +45,6 @@ public class Producto {
         this.materias = materias;
         this.cantidades = cantidades;
     }
-    
     
 
     // Getters y setters
@@ -64,6 +64,16 @@ public class Producto {
     public String getCodigo() {
         return codigo;
     }
+    
+    public ArrayList<Materia> getMaterias() {
+        return materias;
+    }
+
+    public ArrayList<Double> getCantidades() {
+        return cantidades;
+    }
+
+    // Método toString
     
     @Override
     public String toString() {
