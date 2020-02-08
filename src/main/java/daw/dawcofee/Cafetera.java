@@ -5,6 +5,7 @@
  */
 package daw.dawcofee;
 
+import daw.dawcofee.exceptions.DepositoInexistenteExcepcion;
 import daw.dawcofee.exceptions.DepositoInsuficienteExcepcion;
 import daw.dawcofee.exceptions.SaldoInsuficienteExcepcion;
 import java.util.ArrayList;
@@ -14,14 +15,20 @@ import java.util.ArrayList;
  * @author lozan
  */
 public class Cafetera {
+    
     private ArrayList<Deposito> depositos;
     private ArrayList<Producto> productos;
     private Cajero cajero;
+    private Usuario usuario;
+    
+    // Método constructor
 
     public Cafetera(ArrayList<Deposito> depositos, ArrayList<Producto> productos, Cajero cajero) {
+        
         this.depositos = depositos;
         this.productos = productos;
         this.cajero = cajero;
+        this.usuario = null;
     }
     
 //    // Método constructor
@@ -83,11 +90,11 @@ public class Cafetera {
 //        
 //        // Array de depósitos
 //        depositos = new Deposito[]{dep1, dep2, dep3, dep4, dep5, dep6, dep7};
-    }
+//    }
     
     
     
-    public void venta(Producto producto) throws SaldoInsuficienteExcepcion {
+    public void venta(Producto producto) throws SaldoInsuficienteExcepcion, DepositoInexistenteExcepcion {
         
         if (cajero.getSaldoCliente().compareTo(producto.getPrecio()) < 0) {
             throw new SaldoInsuficienteExcepcion();
@@ -95,24 +102,56 @@ public class Cafetera {
             // Almacenar la cantidad de cada depósito antes de vaciarlos.
             // Nos servirá para poder dejarlos como estaban si no hay suficiente
             // producto de alguno
-            double cantidadBase = producto.getCantidadBase();
-            double cantidadPolvo = producto.getCantidadPolvo();
-            double cantidadLeche = producto.getCantidadLeche();
+            
+            ArrayList<Double> cantidadesReinicio = new ArrayList<>();
+            ArrayList<Deposito> listaDepositos = new ArrayList<>();
+            
+            boolean guardado;
+            
+            // Por cada materia del producto, el sistema revisará los depósitos de
+            // la cafetera. Al depósito que contenga la misma materia que necesita el
+            // producto se guardará el valor de su cantidad en la lista anterior por si
+            // es necesario restaurarlo, y se saldrá del bucle.
+            
+            for (int i = 0; i < producto.getMaterias().size(); i++) {
+                
+                guardado = false;
+                
+                for (Deposito deposito : this.depositos) {
+                    if (deposito.getContenido().equals(producto.getMaterias().get(i))) {
+                        cantidadesReinicio.add(deposito.getCantidad());
+                        listaDepositos.add(deposito);
+                        guardado = true;
+                        break;
+                    }
+                }
+                
+                if (!guardado) {
+                    
+                    // Si no hubiera un depósito con la materia
+                    // deseada, se lanzará una excepción.
+            
+                    throw new DepositoInexistenteExcepcion(producto.getMaterias().get(i));
+                }
+            }
             
             /////   Vaciado de depósitos   /////
             // Si alguno se vacía satisfactoriamente, pero el siguiente lanza una
             // excepción, se dejarán todos los depósitos como estaban
             try {
-                producto.getDepBase().vaciar(producto.getCantidadBase());
-                producto.getDepPolvo().vaciar(producto.getCantidadPolvo());
-                producto.getDepLeche().vaciar(producto.getCantidadLeche());
+                for (int i = 0; i < depositos.size(); i++) {
+                    depositos.get(i).vaciar(producto.getCantidades().get(i));
+                }
                 
                 cajero.añadirDinero(producto.getPrecio());
                 cajero.restarSaldo(producto.getPrecio());
             } catch (DepositoInsuficienteExcepcion e) {
-                producto.getDepBase().setCantidad(cantidadBase);
-                producto.getDepPolvo().setCantidad(cantidadPolvo);
-                producto.getDepLeche().setCantidad(cantidadLeche);
+                
+                // Por cada depósito previo se le aplica el valor guardado previamente
+                
+                for (int i = 0; i < depositos.size(); i++) {
+                    depositos.get(i).setCantidad(cantidadesReinicio.get(i));
+                }
             }
         }
     }
@@ -121,12 +160,12 @@ public class Cafetera {
     
     public Producto productoMasBarato() {
         Producto buffer1 = null;
-        Producto buffer2 = null;
-        for (int i = 0; i < productos.length- 1; i++) {
+        Producto buffer2;
+        for (int i = 0; i < productos.size() - 1; i++) {
             if ( i == 0) {
-                buffer1 = productos[i];
+                buffer1 = productos.get(i);
             } else {
-                buffer2 = productos[i];
+                buffer2 = productos.get(i);
                 
                 buffer1 = buffer1.getPrecio().compareTo(buffer2.getPrecio()) < 0
                         ? buffer1
@@ -138,151 +177,6 @@ public class Cafetera {
     
     
     // Getters y setters
-    
-
-    public Deposito getDep1() {
-        return dep1;
-    }
-
-    public void setDep1(Deposito dep1) {
-        this.dep1 = dep1;
-    }
-
-    public Deposito getDep2() {
-        return dep2;
-    }
-
-    public void setDep2(Deposito dep2) {
-        this.dep2 = dep2;
-    }
-
-    public Deposito getDep3() {
-        return dep3;
-    }
-
-    public void setDep3(Deposito dep3) {
-        this.dep3 = dep3;
-    }
-
-    public Deposito getDep4() {
-        return dep4;
-    }
-
-    public void setDep4(Deposito dep4) {
-        this.dep4 = dep4;
-    }
-
-    public Deposito getDep5() {
-        return dep5;
-    }
-
-    public void setDep5(Deposito dep5) {
-        this.dep5 = dep5;
-    }
-
-    public Deposito getDep6() {
-        return dep6;
-    }
-
-    public void setDep6(Deposito dep6) {
-        this.dep6 = dep6;
-    }
-
-    public Deposito getDep7() {
-        return dep7;
-    }
-
-    public void setDep7(Deposito dep7) {
-        this.dep7 = dep7;
-    }
-
-    public Producto getProd1() {
-        return prod1;
-    }
-
-    public void setProd1(Producto prod1) {
-        this.prod1 = prod1;
-    }
-
-    public Producto getProd2() {
-        return prod2;
-    }
-
-    public void setProd2(Producto prod2) {
-        this.prod2 = prod2;
-    }
-
-    public Producto getProd3() {
-        return prod3;
-    }
-
-    public void setProd3(Producto prod3) {
-        this.prod3 = prod3;
-    }
-
-    public Producto getProd4() {
-        return prod4;
-    }
-
-    public void setProd4(Producto prod4) {
-        this.prod4 = prod4;
-    }
-
-    public Producto getProd5() {
-        return prod5;
-    }
-
-    public void setProd5(Producto prod5) {
-        this.prod5 = prod5;
-    }
-
-    public Producto getProd6() {
-        return prod6;
-    }
-
-    public void setProd6(Producto prod6) {
-        this.prod6 = prod6;
-    }
-
-    public Producto getProd7() {
-        return prod7;
-    }
-
-    public void setProd7(Producto prod7) {
-        this.prod7 = prod7;
-    }
-
-    public Producto getProd8() {
-        return prod8;
-    }
-
-    public void setProd8(Producto prod8) {
-        this.prod8 = prod8;
-    }
-
-    public Producto getProd9() {
-        return prod9;
-    }
-
-    public void setProd9(Producto prod9) {
-        this.prod9 = prod9;
-    }
-
-    public Producto getProd10() {
-        return prod10;
-    }
-
-    public void setProd10(Producto prod10) {
-        this.prod10 = prod10;
-    }
-
-    public Producto getProd11() {
-        return prod11;
-    }
-
-    public void setProd11(Producto prod11) {
-        this.prod11 = prod11;
-    }
 
     public Cajero getCajero() {
         return cajero;
@@ -292,11 +186,27 @@ public class Cafetera {
         this.cajero = cajero;
     }
 
-    public Producto[] getProductos() {
+    public ArrayList<Deposito> getDepositos() {
+        return depositos;
+    }
+
+    public void setDepositos(ArrayList<Deposito> depositos) {
+        this.depositos = depositos;
+    }
+
+    public ArrayList<Producto> getProductos() {
         return productos;
     }
 
-    public Deposito[] getDepositos() {
-        return depositos;
+    public void setProductos(ArrayList<Producto> productos) {
+        this.productos = productos;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 }
