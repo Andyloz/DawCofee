@@ -424,8 +424,9 @@ public class Interfaz {
                     ////////////////////
 
         // Depósitos
-        ArrayList<Deposito> depositos = null;
+        ArrayList<Deposito> depositos = new ArrayList<>();
         depositos.add(new Deposito(new Materia(MateriaEnum.AGUA), 10000, 10000, 0.33));
+        depositos.add(new Deposito(new Materia(MateriaEnum.LECHE), 10000, 10000, 0.33));
         depositos.add(new Deposito(new Materia(MateriaEnum.CAFE), 10000, 10000, 0.33));
         depositos.add(new Deposito(new Materia(MateriaEnum.CAFE_DESCAFEINADO), 10000, 10000, 0.33));
         depositos.add(new Deposito(new Materia(MateriaEnum.CACAO), 10000, 10000, 0.33));
@@ -438,15 +439,15 @@ public class Interfaz {
         // Productos //
         ///////////////
         
-        ArrayList<Producto> productos = new ArrayList<Producto>();
+        ArrayList<Producto> productos = new ArrayList<>();
         
         ////// Café //////
         
-        ArrayList<Materia> materiasCafe = new ArrayList<Materia>();
+        ArrayList<Materia> materiasCafe = new ArrayList<>();
         materiasCafe.add(new Materia(MateriaEnum.AGUA));
         materiasCafe.add(new Materia(MateriaEnum.CAFE));
         
-        ArrayList<Double> cantidadesCafe = new ArrayList<Double>();
+        ArrayList<Double> cantidadesCafe = new ArrayList<>();
         cantidadesCafe.add(Double.valueOf(50));
         cantidadesCafe.add(Double.valueOf(6));
         
@@ -454,11 +455,11 @@ public class Interfaz {
         
         ////// Café descafeinado //////
         
-        ArrayList<Materia> materiasCafeDescafeinado = new ArrayList<Materia>();
+        ArrayList<Materia> materiasCafeDescafeinado = new ArrayList<>();
         materiasCafeDescafeinado.add(new Materia(MateriaEnum.AGUA));
         materiasCafeDescafeinado.add(new Materia(MateriaEnum.CAFE_DESCAFEINADO));
         
-        ArrayList<Double> cantidadesCafeDescafeinado = new ArrayList<Double>();
+        ArrayList<Double> cantidadesCafeDescafeinado = new ArrayList<>();
         cantidadesCafeDescafeinado.add(Double.valueOf(50));
         cantidadesCafeDescafeinado.add(Double.valueOf(6));
         
@@ -466,11 +467,11 @@ public class Interfaz {
         
         ////// Café largo //////
         
-        ArrayList<Materia> materiasCafeLargo = new ArrayList<Materia>();
+        ArrayList<Materia> materiasCafeLargo = new ArrayList<>();
         materiasCafeLargo.add(new Materia(MateriaEnum.AGUA));
         materiasCafeLargo.add(new Materia(MateriaEnum.CAFE));
         
-        ArrayList<Double> cantidadesCafeLargo = new ArrayList<Double>();
+        ArrayList<Double> cantidadesCafeLargo = new ArrayList<>();
         cantidadesCafeLargo.add(Double.valueOf(100));
         cantidadesCafeLargo.add(Double.valueOf(12));
         
@@ -478,11 +479,11 @@ public class Interfaz {
         
         ////// Café largo descafeinado //////
         
-        ArrayList<Materia> materiasCafeLargoDescafeinado = new ArrayList<Materia>();
+        ArrayList<Materia> materiasCafeLargoDescafeinado = new ArrayList<>();
         materiasCafeLargoDescafeinado.add(new Materia(MateriaEnum.AGUA));
         materiasCafeLargoDescafeinado.add(new Materia(MateriaEnum.CAFE_DESCAFEINADO));
         
-        ArrayList<Double> cantidadesCafeLargoDescafeinado = new ArrayList<Double>();
+        ArrayList<Double> cantidadesCafeLargoDescafeinado = new ArrayList<>();
         cantidadesCafeLargoDescafeinado.add(Double.valueOf(100));
         cantidadesCafeLargoDescafeinado.add(Double.valueOf(12));
         
@@ -490,13 +491,13 @@ public class Interfaz {
         
         ////// Café con leche //////
         
-        ArrayList<Materia> materiasCafeLeche = new ArrayList<Materia>();
+        ArrayList<Materia> materiasCafeLeche = new ArrayList<>();
         materiasCafeLeche.add(new Materia(MateriaEnum.AGUA));
         materiasCafeLeche.add(new Materia(MateriaEnum.CAFE));
         materiasCafeLeche.add(new Materia(MateriaEnum.LECHE));
         
         
-        ArrayList<Double> cantidadesCafeLeche = new ArrayList<Double>();
+        ArrayList<Double> cantidadesCafeLeche = new ArrayList<>();
         cantidadesCafeLeche.add(Double.valueOf(50));
         cantidadesCafeLeche.add(Double.valueOf(6));
         cantidadesCafeLeche.add(Double.valueOf(50));
@@ -505,12 +506,12 @@ public class Interfaz {
         
         ////// Café descafeinado con leche //////
         
-        ArrayList<Materia> materiasCafeLecheDescafeinado = new ArrayList<Materia>();
+        ArrayList<Materia> materiasCafeLecheDescafeinado = new ArrayList<>();
         materiasCafeLecheDescafeinado.add(new Materia(MateriaEnum.AGUA));
         materiasCafeLecheDescafeinado.add(new Materia(MateriaEnum.CAFE_DESCAFEINADO));
         materiasCafeLecheDescafeinado.add(new Materia(MateriaEnum.LECHE));
         
-        ArrayList<Double> cantidadesCafeLecheDescafeinado = new ArrayList<Double>();
+        ArrayList<Double> cantidadesCafeLecheDescafeinado = new ArrayList<>();
         cantidadesCafeLecheDescafeinado.add(Double.valueOf(50));
         cantidadesCafeLecheDescafeinado.add(Double.valueOf(6));
         cantidadesCafeLecheDescafeinado.add(Double.valueOf(50));
@@ -519,12 +520,12 @@ public class Interfaz {
         
         ////// Café cortado //////
         
-        ArrayList<Materia> materiasCafeCortado = new ArrayList<Materia>();
+        ArrayList<Materia> materiasCafeCortado = new ArrayList<>();
         materiasCafeCortado.add(new Materia(MateriaEnum.AGUA));
         materiasCafeCortado.add(new Materia(MateriaEnum.CAFE));
         materiasCafeCortado.add(new Materia(MateriaEnum.LECHE));
         
-        ArrayList<Double> cantidadesCafeCortado = new ArrayList<Double>();
+        ArrayList<Double> cantidadesCafeCortado = new ArrayList<>();
         cantidadesCafeCortado.add(Double.valueOf(50));
         cantidadesCafeCortado.add(Double.valueOf(6));
         cantidadesCafeCortado.add(Double.valueOf(25));
@@ -533,26 +534,61 @@ public class Interfaz {
         
         ////// Café cortado descafeinado //////
         
-        ArrayList<Materia> materiasCafeCortadoDescafeinado = new ArrayList<Materia>();
+        ArrayList<Materia> materiasCafeCortadoDescafeinado = new ArrayList<>();
         materiasCafeCortadoDescafeinado.add(new Materia(MateriaEnum.AGUA));
         materiasCafeCortadoDescafeinado.add(new Materia(MateriaEnum.CAFE_DESCAFEINADO));
         materiasCafeCortadoDescafeinado.add(new Materia(MateriaEnum.LECHE));
         
-        ArrayList<Double> cantidadesCafeCortadoDescafeinado = new ArrayList<Double>();
+        ArrayList<Double> cantidadesCafeCortadoDescafeinado = new ArrayList<>();
         cantidadesCafeCortadoDescafeinado.add(Double.valueOf(50));
         cantidadesCafeCortadoDescafeinado.add(Double.valueOf(6));
         cantidadesCafeCortadoDescafeinado.add(Double.valueOf(25));
         
         productos.add(new Producto("Café cortado descafeinado", BigDecimal.valueOf(1.00), "8", materiasCafeCortadoDescafeinado, cantidadesCafeCortadoDescafeinado));
         
+        ////// Chocolate //////
+        
+        ArrayList<Materia> materiasChocolate = new ArrayList<>();
+        materiasChocolate.add(new Materia(MateriaEnum.LECHE));
+        materiasChocolate.add(new Materia(MateriaEnum.CACAO));
+        
+        ArrayList<Double> cantidadesChocolate = new ArrayList<>();
+        cantidadesChocolate.add(Double.valueOf(100));
+        cantidadesChocolate.add(Double.valueOf(12));
+        
+        productos.add(new Producto("Chocolate", BigDecimal.valueOf(0.90), "9", materiasChocolate, cantidadesChocolate));
+        
+        ////// Leche Fría //////
+        
+        ArrayList<Materia> materiasLecheFría = new ArrayList<>();
+        materiasLecheFría.add(new Materia(MateriaEnum.LECHE));
+        materiasLecheFría.add(new Materia(MateriaEnum.CACAO));
+        
+        ArrayList<Double> cantidadesLecheFría = new ArrayList<>();
+        cantidadesLecheFría.add(Double.valueOf(100));
+        cantidadesLecheFría.add(Double.valueOf(12));
+        
+        productos.add(new Producto("Leche Fría", BigDecimal.valueOf(0.90), "10", materiasLecheFría, cantidadesLecheFría));
+        
+        ////// Leche Caliente //////
+        
+        ArrayList<Materia> materiasLecheCaliente = new ArrayList<>();
+        materiasLecheCaliente.add(new Materia(MateriaEnum.LECHE));
+        materiasLecheCaliente.add(new Materia(MateriaEnum.CACAO));
+        
+        ArrayList<Double> cantidadesLecheCaliente = new ArrayList<>();
+        cantidadesLecheCaliente.add(Double.valueOf(100));
+        cantidadesLecheCaliente.add(Double.valueOf(12));
+        
+        productos.add(new Producto("Leche Caliente", BigDecimal.valueOf(0.90), "11", materiasLecheCaliente, cantidadesLecheCaliente));
         
         
+        // Cajero
+        Cajero cajero = new Cajero();
         
-        
-        
-        
-        
+        // Cafetera completa
         Cafetera cafetera = new Cafetera(depositos, productos, cajero);
+        
         Scanner sc = new Scanner(System.in);
         int codigo = -1;
         Producto productoVenta = null;
@@ -597,7 +633,7 @@ public class Interfaz {
                     sc.nextLine();
                 }
             } while (opcion == 0);
-            
+            System.out.println();
             
             ///////     Entrada a venta o administración     ///////
             
