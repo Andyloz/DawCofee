@@ -118,7 +118,9 @@ public class Cafetera {
                 guardado = false;
                 
                 for (Deposito deposito : this.depositos) {
-                    if (deposito.getContenido().equals(producto.getMaterias().get(i))) {
+                    if (deposito.getContenido().getContenido()
+                            .equals(producto.getMaterias().get(i).getContenido())) {
+                        
                         cantidadesReinicio.add(deposito.getCantidad());
                         listaDepositos.add(deposito);
                         guardado = true;
@@ -139,8 +141,8 @@ public class Cafetera {
             // Si alguno se vacía satisfactoriamente, pero el siguiente lanza una
             // excepción, se dejarán todos los depósitos como estaban
             try {
-                for (int i = 0; i < depositos.size(); i++) {
-                    depositos.get(i).vaciar(producto.getCantidades().get(i));
+                for (int i = 0; i < listaDepositos.size(); i++) {
+                    listaDepositos.get(i).vaciar(producto.getCantidades().get(i));
                 }
                 
                 cajero.añadirDinero(producto.getPrecio());
@@ -149,8 +151,8 @@ public class Cafetera {
                 
                 // Por cada depósito previo se le aplica el valor guardado previamente
                 
-                for (int i = 0; i < depositos.size(); i++) {
-                    depositos.get(i).setCantidad(cantidadesReinicio.get(i));
+                for (int i = 0; i < listaDepositos.size(); i++) {
+                    listaDepositos.get(i).setCantidad(cantidadesReinicio.get(i));
                 }
             }
         }
