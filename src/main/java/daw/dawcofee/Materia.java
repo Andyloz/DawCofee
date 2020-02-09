@@ -23,4 +23,8 @@ public class Materia {
     public String getTipo() {
         return contenido.getTipo();
     }
+
+    public MateriaEnum getContenido() {
+        return contenido;
+    }
 }
