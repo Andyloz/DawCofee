@@ -163,7 +163,7 @@ public class Deposito {
     // El depósito está por debajo del umbral (33%)
     @Override
     public String toString() {
-        return "Depósito de " + contenido + "\n" +
+        return "Depósito de " + contenido.getNombre() + "\n" +
                "Capacidad (máxima): " + getCantidad() + " de " + getCapMaximaF() + "\n" +
                isIndicadorUmbrF() + " (" + getCapUmbralF() + ")";
     }  
