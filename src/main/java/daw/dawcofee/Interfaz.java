@@ -134,7 +134,7 @@ public class Interfaz {
         for (int i = 0; i < cafetera.getDepositos().size(); i++) {
             System.out.println("Depósito " + (i + 1) + ": "
                     + "Depósito de "
-                    + cafetera.getDepositos().get(i).getContenido());
+                    + cafetera.getDepositos().get(i).getContenido().getNombre());
         }
         System.out.println("--------------------------------");
 
@@ -296,7 +296,7 @@ public class Interfaz {
                     
                     for (Deposito deposito : cafetera.getDepositos()) {
                         System.out.println("Depósito de " 
-                                + deposito.getContenido()
+                                + deposito.getContenido().getNombre()
                                 + ": " + deposito.isIndicadorUmbrF());
                     }
                     
