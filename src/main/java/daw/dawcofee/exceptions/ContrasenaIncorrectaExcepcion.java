@@ -12,7 +12,7 @@ package daw.dawcofee.exceptions;
 public class ContrasenaIncorrectaExcepcion extends Exception {
 
     public ContrasenaIncorrectaExcepcion(String contrasena) {
-        super(contrasena + "no es una contraseña correcta. La contraseña debe tener entre 5 y 30\n"
+        super("'" + contrasena + "'" + " no es una contraseña correcta. La contraseña debe tener entre 5 y 30\n"
                     + "caracteres, de los cuales al menos 3 deben ser "
                     + "números y al\n menos 1 mayúscula");
     }

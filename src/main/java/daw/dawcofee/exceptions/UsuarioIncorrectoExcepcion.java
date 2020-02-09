@@ -12,7 +12,7 @@ package daw.dawcofee.exceptions;
 public class UsuarioIncorrectoExcepcion extends Exception {
 
     public UsuarioIncorrectoExcepcion(String usuario) {
-        super(usuario + "no es un usuario correcto. El nombre de usuario de tener entre\n"
+        super("'" + usuario + "'" + " no es un usuario correcto. El nombre de usuario de tener entre\n"
                     + "5 y 20 caracteres");
     }
 
